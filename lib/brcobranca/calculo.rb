@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+c# -*- encoding: utf-8 -*-
 # @author Kivanio Barbosa
 module Brcobranca
   # Métodos auxiliares de cálculos
@@ -39,7 +39,7 @@ module Brcobranca
       dv = 10 - total.to_s.split(//)[-1].to_i
       dv == 10 ? 0 : dv
     end
-
+c
     # Calcula módulo 11 com multiplicaroes de 9 a 2 segundo a BACEN.
     #
     # @return [Integer]
@@ -57,6 +57,17 @@ module Brcobranca
 
       valor = (11 - (total % 11))
       return [0,10,11].include?(valor) ? 1 : valor
+    end
+    
+       
+    # Calcula módulo 11 com multiplicaroes de 9 a 2 (Utilizado pela Bradesco).
+    #
+    # @return [Integer]
+    def modulo11_2to9_bradesco
+      total = self.multiplicador([2,3,4,5,6,7,8,9])
+      total = (total % 11) unless total < 11
+      valor = (11 - total)
+      return valor > 9 ? 0 : valor
     end
     
     # Calcula módulo 11 com multiplicaroes de 2 a 9 (Utilizado pela CAIXA - boletos SIGCB).
