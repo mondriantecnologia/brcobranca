@@ -2,16 +2,18 @@
 
 * http://rubygems.org/gems/brcobranca
 
-== EXEMPLO
+== Fonte
 
-* http://www.boletorails.com.br
 * http://github.com/kivanio/brcobranca_exemplo
 
 == DESCRIÇÃO
 
-Gem para emissão de bloquetos de cobrança para bancos brasileiros
+Gem para emissão de boletos de cobrança para bancos brasileiros
 
 == Bancos Disponíveis
+
+* Banco Bradesco (Digito NNum será Corrigido)
+  * TODAS AS CARTEIRAS PRESENTES NA DOCUMENTAÇÃO
 
 * Banco do Brasil
   * TODAS AS CARTEIRAS PRESENTES NA DOCUMENTAÇÃO
@@ -25,9 +27,6 @@ Gem para emissão de bloquetos de cobrança para bancos brasileiros
 * Banco Real
   * Sem registro
   * Com registro
-
-* Banco Bradesco
-  * TODAS AS CARTEIRAS PRESENTES NA DOCUMENTAÇÃO
 
 * Banco UNIBANCO
   * Sem registro
@@ -47,10 +46,6 @@ Gem para emissão de bloquetos de cobrança para bancos brasileiros
 * CBR643
 * CNAB240
 
-== Está perdido?
-
-Veja a documentação da versão atual em http://rubydoc.info/gems/brcobranca e da versão de desenvolvimento em http://rubydoc.info/github/kivanio/brcobranca/master/frames
-
 == REQUISITOS
 
 * rghost >= 0.8
@@ -62,26 +57,9 @@ Veja a documentação da versão atual em http://rubydoc.info/gems/brcobranca e 
 
 * sudo gem install brcobranca
 
-== FONTES
-
-* http://github.com/kivanio/brcobranca/tree/master
-
-== WIKI
-
-* http://wiki.github.com/kivanio/brcobranca
-
 == PROBLEMAS? QUERENDO MAIS?
 
 Informe em http://github.com/kivanio/brcobranca/issues
-
-== Gostou?
-
-Recomende-nos no http://www.workingwithrails.com/recommendation/new/person/5679-kivanio-pereira-barbosa
-
-== APOIO
-
-{RubyMine}[http://www.jetbrains.com/ruby/features?utm_source=RubyMineUser&utm_medium=Banner&utm_campaign=RubyMine]
-http://www.jetbrains.com/ruby/features/ruby_banners/ruby1/ruby468x60_rubin.gif
 
 == LICENÇA
 
