@@ -39,7 +39,7 @@ module Brcobranca
       dv = 10 - total.to_s.split(//)[-1].to_i
       dv == 10 ? 0 : dv
     end
-c
+
     # Calcula módulo 11 com multiplicaroes de 9 a 2 segundo a BACEN.
     #
     # @return [Integer]
