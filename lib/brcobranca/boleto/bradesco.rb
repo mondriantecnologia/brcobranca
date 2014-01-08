@@ -36,13 +36,13 @@ module Brcobranca
       end
 
       # Dígito verificador do Nosso Número
+      # Verificar retorno para digito -> 10
       # @return [String]
       def nosso_numero_dv
         resto  = modulo11_bradesco("#{carteira}#{numero_documento}", 7, 2).to_i
         digito = 11 - resto
-        return digito
         digito = case digito
-          when 10 then 0 # Verificar
+          when 10 then 0 
           when 11 then 0
           else digito
         end
