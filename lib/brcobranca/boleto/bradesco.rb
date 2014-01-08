@@ -38,7 +38,7 @@ module Brcobranca
       # Dígito verificador do Nosso Número
       # @return [String]
       def nosso_numero_dv
-        "#{carteira}#{numero_documento}".modulo11_9to2_bradesco.to_s
+        "#{carteira}#{numero_documento}".modulo11_bradesco.to_s
       end
 
       # Nosso número para exibir no boleto.
@@ -70,6 +70,33 @@ module Brcobranca
       def codigo_barras_segunda_parte
         "#{self.agencia}#{self.carteira}#{self.numero_documento}#{self.conta_corrente}0"
       end
+      
+      private
+        # modulo11_bradesco
+        def modulo11_bradesco(num,base=9,r=0)
+          soma, fator = 0, 2
+          numeros, parcial = [], []
+          
+          for i in (1..num.size).to_a.reverse
+            numeros[i] = num[i-1,1].to_i
+            parcial[i] = numeros[i] * fator
+            soma += parcial[i].to_i
+            if (fator == base)
+                fator = 1
+            end
+            fator += 1
+          end
+          if (r == 0)
+            soma  *= 10
+            digito = soma % 11
+            digito = 0 if (digito == 10)
+            return digito 
+          elsif (r == 1)
+            digito = soma % 11
+            return digito
+          end
+        end
+
     end
   end
 end
