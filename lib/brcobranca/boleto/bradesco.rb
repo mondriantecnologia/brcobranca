@@ -41,8 +41,8 @@ module Brcobranca
         resto  = modulo11_bradesco("#{carteira}#{numero_documento}", 7, 2)
         digito = 11 - resto
         digito = case digito
-          when 10 then "P"
-          when 11 then  0
+          when 10 then 0 # Verificar
+          when 11 then 0
           else digito
         end
         return digito.to_s
