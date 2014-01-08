@@ -38,7 +38,13 @@ module Brcobranca
       # Dígito verificador do Nosso Número
       # @return [String]
       def nosso_numero_dv
-        "#{carteira}#{numero_documento}".modulo11_bradesco.to_s
+        resto = modulo11_bradesco("#{carteira}#{numero_documento}", 7, 2)
+        digito = 11 - resto2
+        return case digito
+          when 10 then "P"
+          when 11 then  0
+          else digito
+        end
       end
 
       # Nosso número para exibir no boleto.
