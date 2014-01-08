@@ -39,6 +39,7 @@ module Brcobranca
       # @return [String]
       def nosso_numero_dv
         resto  = modulo11_bradesco("#{carteira}#{numero_documento}", 7, 2)
+        return resto
         digito = 11 - resto
         digito = case digito
           when 10 then 0 # Verificar
@@ -80,7 +81,7 @@ module Brcobranca
       
       private
         # modulo11_bradesco
-        def modulo11_bradesco(num,base=9,r=0)
+        def modulo11_bradesco(num, base=9, r=0)
           soma, fator = 0, 2
           numeros, parcial = [], []
           
