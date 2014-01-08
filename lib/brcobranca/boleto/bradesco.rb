@@ -35,6 +35,12 @@ module Brcobranca
         @numero_documento = valor.to_s.rjust(11,'0') if valor
       end
 
+      # Dígito verificador do Nosso Número
+      # @return [String]
+      def nosso_numero_dv
+        "#{carteira}#{numero_documento}".modulo11_9to2_bradesco.to_s
+      end
+
       # Nosso número para exibir no boleto.
       # @return [String]
       # @example
