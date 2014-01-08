@@ -40,11 +40,12 @@ module Brcobranca
       def nosso_numero_dv
         resto  = modulo11_bradesco("#{carteira}#{numero_documento}", 7, 2)
         digito = 11 - resto
-        return case digito
+        digito = case digito
           when 10 then "P"
           when 11 then  0
           else digito
         end
+        return digito.to_s
       end
 
       # Nosso número para exibir no boleto.
