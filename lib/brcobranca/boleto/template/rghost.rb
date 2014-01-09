@@ -133,21 +133,21 @@ module Brcobranca
         def modelo_generico_cabecalho(doc, boleto)
           #INICIO Primeira parte do BOLETO
           # LOGOTIPO do BANCO
-          doc.image(boleto.logotipo, :x => '0.5 cm', :y => '19.85 cm', :zoom => 80)
+          doc.image(boleto.logotipo, :x => '0.5 cm', :y => '20.55 cm', :zoom => 80)
           # Dados
-          doc.moveto :x => '5.2 cm' , :y => '19.85 cm'
+          doc.moveto :x => '5.2 cm' , :y => '20.55 cm'
           doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => :grande
-          doc.moveto :x => '7.5 cm' , :y => '19.85 cm'
+          doc.moveto :x => '7.5 cm' , :y => '20.55 cm'
           doc.show boleto.codigo_barras.linha_digitavel, :tag => :grande
           #doc.moveto :x => '0.7 cm' , :y => '19 cm'
           #doc.show boleto.cedente
           cedente = "#{boleto.cedente}"
-          doc.text_area cedente, :width => '10 cm', :x => '0.7 cm' , :y => '19 cm'
-          doc.moveto :x => '11 cm' , :y => '19 cm'
+          doc.text_area cedente, :width => '10 cm', :x => '0.7 cm' , :y => '19.7 cm'
+          doc.moveto :x => '11 cm' , :y => '19.7 cm'
           doc.show boleto.agencia_conta_boleto
-          doc.moveto :x => '14.2 cm' , :y => '19 cm'
+          doc.moveto :x => '14.2 cm' , :y => '19.7 cm'
           doc.show boleto.especie
-          doc.moveto :x => '15.7 cm' , :y => '19 cm'
+          doc.moveto :x => '15.7 cm' , :y => '19.7 cm'
           doc.show boleto.quantidade
           doc.moveto :x => '0.7 cm' , :y => '18.2 cm'
           doc.show boleto.numero_documento
@@ -155,7 +155,7 @@ module Brcobranca
           doc.show "#{boleto.documento_cedente.formata_documento}"
           doc.moveto :x => '12 cm' , :y => '18.2 cm'
           doc.show boleto.data_vencimento.to_s_br
-          doc.moveto :x => '16.5 cm' , :y => '19 cm'
+          doc.moveto :x => '16.5 cm' , :y => '19.7 cm'
           doc.show boleto.nosso_numero_boleto
           doc.moveto :x => '16.5 cm' , :y => '18.2 cm'
           doc.show boleto.valor_documento.to_currency
