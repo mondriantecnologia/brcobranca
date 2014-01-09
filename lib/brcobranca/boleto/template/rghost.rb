@@ -110,7 +110,7 @@ module Brcobranca
           modelo_generico_rodape(doc, boleto)
 
           #Gerando codigo de barra com rghost_barcode
-          doc.barcode_interleaved2of5(boleto.codigo_barras, :width => '12.3 cm', :height => '1.6 cm', :x => '0.7 cm', :y => '5.8 cm' ) if boleto.codigo_barras
+          doc.barcode_interleaved2of5(boleto.codigo_barras, :width => '12.7 cm', :height => '1.6 cm', :x => '0.7 cm', :y => '1.8 cm' ) if boleto.codigo_barras
 
           # Gerando stream
           formato = (options.delete(:formato) || Brcobranca.configuration.formato)
@@ -175,7 +175,7 @@ module Brcobranca
           #doc.moveto :x => '0.7 cm' , :y => '19 cm'
           #doc.show boleto.cedente
           cedente = "#{boleto.cedente}"
-          doc.text_area cedente, :width => '10 cm', :x => '0.7 cm' , :y => '19.5 cm'
+          doc.text_area cedente, :width => '9.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
           doc.moveto :x => '11 cm' , :y => '19.5 cm'
           doc.show boleto.agencia_conta_boleto
           doc.moveto :x => '14.2 cm' , :y => '19.5 cm'
@@ -193,9 +193,9 @@ module Brcobranca
           doc.moveto :x => '16.5 cm' , :y => '18.2 cm'
           doc.show boleto.valor_documento.to_currency
           doc.moveto :x => '1.4 cm' , :y => '16.9 cm'
-          doc.show "#{boleto.sacado} - #{boleto.sacado_documento.formata_documento}"
-          doc.moveto :x => '1.4 cm' , :y => '16.6 cm'
           doc.show "#{boleto.sacado_endereco}"
+          doc.moveto :x => '1.4 cm' , :y => '16.6 cm'
+          doc.show "#{boleto.sacado} - #{boleto.sacado_documento.formata_documento}"
           #FIM Primeira parte do BOLETO
         end
 
