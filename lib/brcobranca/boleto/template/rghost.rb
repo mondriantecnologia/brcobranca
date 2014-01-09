@@ -139,8 +139,10 @@ module Brcobranca
           doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => :grande
           doc.moveto :x => '7.5 cm' , :y => '19.85 cm'
           doc.show boleto.codigo_barras.linha_digitavel, :tag => :grande
-          doc.moveto :x => '0.7 cm' , :y => '19 cm', :width => '10 cm'
-          doc.show boleto.cedente
+          doc.moveto :x => '0.7 cm' , :y => '19 cm'
+          #doc.show boleto.cedente
+          cedente = "#{boleto.cedente}"
+          doc.text_area cedente, :width => '10 cm'
           doc.moveto :x => '11 cm' , :y => '19 cm'
           doc.show boleto.agencia_conta_boleto
           doc.moveto :x => '14.2 cm' , :y => '19 cm'
