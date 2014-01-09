@@ -175,7 +175,7 @@ module Brcobranca
           #doc.moveto :x => '0.7 cm' , :y => '19 cm'
           #doc.show boleto.cedente
           cedente = "#{boleto.cedente}"
-          doc.text_area cedente, :width => '9.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
+          doc.text_area cedente, :width => '8.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
           doc.moveto :x => '11 cm' , :y => '19.5 cm'
           doc.show boleto.agencia_conta_boleto
           doc.moveto :x => '14.2 cm' , :y => '19.5 cm'
