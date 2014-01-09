@@ -11,7 +11,7 @@ module Brcobranca
       # Nova instancia do Bradesco
       # @param (see Brcobranca::Boleto::Base#initialize)
       def initialize(campos={})
-        campos = {:carteira => "06", :aceite => "N",
+        campos = {:carteira => "06", :aceite => "N", :data_processamento => Date.today,
         :local_pagamento => "Pagável em qualquer Banco até o vencimento."}.merge!(campos)
         super(campos)
       end
