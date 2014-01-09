@@ -39,12 +39,12 @@ module Brcobranca
       # Verificar retorno para digito -> 10
       # @return [String]
       def nosso_numero_dv
-        resto  = self.modulo11_bradesco(7, 2).to_i
+        resto  = self.modulo11_nnum_bradesco(7, 1)
         digito = 11 - resto
         return case digito
-          when 10 then "P" 
-          when 11 then 0
-          else digito
+           when 10 then "P"
+           when 11 then 0
+           else digito
         end
       end
 
@@ -80,31 +80,31 @@ module Brcobranca
       
       private
         # modulo11_bradesco
-        def modulo11_bradesco(base=9, r=0)
+        def modulo11_nnum_bradesco(base=9,r=0)
           num = "#{self.carteira}#{self.numero_documento}"
           soma, fator = 0, 2
           numeros, parcial = [], []
-          
           for i in (1..num.size).to_a.reverse
-            numeros[i] = num[i-1,1].to_i
-            parcial[i] = numeros[i] * fator
-            soma += parcial[i].to_i
-            if (fator == base)
-                fator = 1
-            end
-            fator += 1
+              numeros[i] = num[i-1,1].to_i
+              parcial[i] = numeros[i] * fator
+              soma += parcial[i].to_i
+              if (fator == base)
+        	  fator = 1
+              end
+              fator += 1
           end
           if (r == 0)
-            soma  *= 10
-            digito = soma % 11
-            digito = 0 if (digito == 10)
-            return digito 
+              soma *= 10
+              digito = soma % 11
+              if (digito == 10)
+        	  digito = 0
+              end
+              return digito
           elsif (r == 1)
-            digito = soma % 11
-            return digito
+              resto = soma % 11
+              return resto
           end
         end
-
     end
   end
 end
