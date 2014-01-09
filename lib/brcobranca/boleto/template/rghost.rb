@@ -30,8 +30,12 @@ module Brcobranca
         # @return [Stream]
         # @see http://wiki.github.com/shairontoledo/rghost/supported-devices-drivers-and-formats Veja mais formatos na documentação do rghost.
         # @see Rghost#modelo_generico Recebe os mesmos parâmetros do Rghost#modelo_generico.
-        def to(formato, options={})
-          modelo_generico(self, options.merge!({:formato => formato}))
+        def to(formato, options={}, generico = true)
+          if generico
+             modelo_generico(self, options.merge!({:formato => formato}))
+          else
+             modelo_mondrian(self, options.merge!({:formato => formato}))
+          end
         end
 
         # Gera o boleto em usando o formato desejado [:pdf, :jpg, :tif, :png, :ps, :laserjet, ... etc]
@@ -86,6 +90,35 @@ module Brcobranca
           resolucao = (options.delete(:resolucao) || Brcobranca.configuration.resolucao)
           doc.render_stream(formato.to_sym, :resolution => resolucao)
         end
+
+        # Retorna um stream pronto para gravação em arquivo.
+        #
+        # @return [Stream]
+        # @param [Boleto] Instância de uma classe de boleto.
+        # @param [Hash] options Opção para a criação do boleto.
+        # @option options [Symbol] :resolucao Resolução em pixels.
+        # @option options [Symbol] :formato Formato desejado [:pdf, :jpg, :tif, :png, :ps, :laserjet, ... etc]
+        def modelo_mondrian(boleto, options={})
+          doc=Document.new :paper => :A4 # 210x297
+
+          template_path = File.join(File.dirname(__FILE__),'..','..','arquivos','templates','modelo_mondrian.eps')
+
+          raise "Não foi possível encontrar o template. Verifique o caminho" unless File.exist?(template_path)
+
+          modelo_generico_template(doc, boleto, template_path)
+          modelo_generico_cabecalho(doc, boleto)
+          modelo_generico_rodape(doc, boleto)
+
+          #Gerando codigo de barra com rghost_barcode
+          doc.barcode_interleaved2of5(boleto.codigo_barras, :width => '12.3 cm', :height => '1.6 cm', :x => '0.7 cm', :y => '5.8 cm' ) if boleto.codigo_barras
+
+          # Gerando stream
+          formato = (options.delete(:formato) || Brcobranca.configuration.formato)
+          resolucao = (options.delete(:resolucao) || Brcobranca.configuration.resolucao)
+          doc.render_stream(formato.to_sym, :resolution => resolucao)
+        end
+
+
 
         # Retorna um stream para multiplos boletos pronto para gravação em arquivo.
         #
