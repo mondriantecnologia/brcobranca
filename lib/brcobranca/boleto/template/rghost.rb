@@ -121,7 +121,7 @@ module Brcobranca
 
         # Define o template a ser usado no boleto
         def modelo_generico_template(doc, boleto, template_path)
-          doc.define_template(:template, template_path, :x => '0.3 cm', :y => "0 cm")
+          doc.define_template(:template, template_path, :x => '0.3 cm', :y => "-4 cm")
           doc.use_template :template
 
           doc.define_tags do
