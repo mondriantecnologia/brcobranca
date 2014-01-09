@@ -79,7 +79,7 @@ module Brcobranca
           modelo_generico_rodape(doc, boleto)
 
           #Gerando codigo de barra com rghost_barcode
-          doc.barcode_interleaved2of5(boleto.codigo_barras, :width => '12.3 cm', :height => '1.6 cm', :x => '0.7 cm', :y => '5.8 cm' ) if boleto.codigo_barras
+          doc.barcode_interleaved2of5(boleto.codigo_barras, :width => '12.7 cm', :height => '1.6 cm', :x => '0.7 cm', :y => '1.8 cm' ) if boleto.codigo_barras
 
           # Gerando stream
           formato = (options.delete(:formato) || Brcobranca.configuration.formato)
