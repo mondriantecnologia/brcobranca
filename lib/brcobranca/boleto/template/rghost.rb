@@ -30,8 +30,8 @@ module Brcobranca
         # @return [Stream]
         # @see http://wiki.github.com/shairontoledo/rghost/supported-devices-drivers-and-formats Veja mais formatos na documentação do rghost.
         # @see Rghost#modelo_generico Recebe os mesmos parâmetros do Rghost#modelo_generico.
-        def to(formato, options={}, generico = true)
-          if generico
+        def to(formato, options={:generico => true})
+          if options[:generico]
              modelo_generico(self, options.merge!({:formato => formato}))
           else
              modelo_mondrian(self, options.merge!({:formato => formato}))
