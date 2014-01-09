@@ -78,33 +78,33 @@ module Brcobranca
         "#{self.agencia}#{self.carteira}#{self.numero_documento}#{self.conta_corrente}0"
       end
       
-      private
-        # modulo11_bradesco
-        def modulo11_nnum_bradesco(base=9,r=0)
-          num = "#{self.carteira}#{self.numero_documento}"
-          soma, fator = 0, 2
-          numeros, parcial = [], []
-          for i in (1..num.size).to_a.reverse
-              numeros[i] = num[i-1,1].to_i
-              parcial[i] = numeros[i] * fator
-              soma += parcial[i].to_i
-              if (fator == base)
-        	  fator = 1
-              end
-              fator += 1
-          end
-          if (r == 0)
-              soma *= 10
-              digito = soma % 11
-              if (digito == 10)
-        	  digito = 0
-              end
-              return digito
-          elsif (r == 1)
-              resto = soma % 11
-              return resto
-          end
+    
+      # modulo11_bradesco
+      def modulo11_nnum_bradesco(base=9,r=0)
+        num = "#{self.carteira}#{self.numero_documento}"
+        soma, fator = 0, 2
+        numeros, parcial = [], []
+        for i in (1..num.size).to_a.reverse
+            numeros[i] = num[i-1,1].to_i
+            parcial[i] = numeros[i] * fator
+            soma += parcial[i].to_i
+            if (fator == base)
+      	  fator = 1
+            end
+            fator += 1
         end
+        if (r == 0)
+            soma *= 10
+            digito = soma % 11
+            if (digito == 10)
+      	  digito = 0
+            end
+            return digito
+        elsif (r == 1)
+            resto = soma % 11
+            return resto
+        end
+      end
     end
   end
 end
