@@ -32,9 +32,9 @@ module Brcobranca
         # @see Rghost#modelo_generico Recebe os mesmos parâmetros do Rghost#modelo_generico.
         def to(formato, options={:generico => true})
           #if options[:generico] == true
-             modelo_generico(self, options.merge!({:formato => formato}))
+             #modelo_generico(self, options.merge!({:formato => formato}))
           #else
-             #modelo_mondrian(self, options.merge!({:formato => formato}))
+             modelo_mondrian(self, options.merge!({:formato => formato}))
           #end
         end
 
