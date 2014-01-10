@@ -158,8 +158,8 @@ module Brcobranca
 
           doc.define_tags do
             tag :grande,         :size => 13
-            tag :negrito,        :name => 'NimbusSanL-BoldItal'
-            tag :grande_negrito, :name => 'NimbusSanL-BoldItal', :size => 13
+            #tag :negrito,        :name => 'NimbusSanL-BoldItal'
+            #tag :grande_negrito, :name => 'NimbusSanL-BoldItal', :size => 13
           end
         end
 
