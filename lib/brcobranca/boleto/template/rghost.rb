@@ -106,8 +106,8 @@ module Brcobranca
           raise "Não foi possível encontrar o template. Verifique o caminho" unless File.exist?(template_path)
 
           modelo_generico_template(doc, boleto, template_path)
-          modelo_generico_cabecalho(doc, boleto, {:grande => [:grande_negrito], :logo => 60})
-          modelo_generico_rodape(doc, boleto, 12.8)
+          modelo_generico_cabecalho(doc, boleto) #, {:grande => [:grande_negrito], :logo => 60}
+          modelo_generico_rodape(doc, boleto) #, 12.8
 
           #Gerando codigo de barra com rghost_barcode
           doc.barcode_interleaved2of5(boleto.codigo_barras, :width => '12.7 cm', :height => '1.6 cm', :x => '0.7 cm', :y => '1.8 cm' ) if boleto.codigo_barras
