@@ -106,7 +106,7 @@ module Brcobranca
           raise "Não foi possível encontrar o template. Verifique o caminho" unless File.exist?(template_path)
 
           modelo_generico_template(doc, boleto, template_path)
-          modelo_generico_cabecalho(doc, boleto) #, {:grande => :grande_negrito, :logo => 60}
+          modelo_generico_cabecalho(doc, boleto, {:grande => :grande_negrito, :logo => 60})
           modelo_generico_rodape(doc, boleto) #, 12.8
 
           #Gerando codigo de barra com rghost_barcode
@@ -158,20 +158,20 @@ module Brcobranca
 
           doc.define_tags do
             tag :grande,         :size => 13
-            #tag :negrito,        :name => 'NimbusSanL-BoldItal'
-            #tag :grande_negrito, :name => 'NimbusSanL-BoldItal', :size => 13
+            tag :negrito,        :name => 'NimbusSanL-BoldItal'
+            tag :grande_negrito, :name => 'NimbusSanL-BoldItal', :size => 13
           end
         end
 
         # Monta o cabeçalho do layout do boleto
-        def modelo_generico_cabecalho(doc, boleto, opts = {:grande => :grande, :logo => 80})
+        def modelo_generico_cabecalho(doc, boleto, opts = {:grande => :grande, :logo => 80, :pos_y => 20.35})
           #INICIO Primeira parte do BOLETO
           # LOGOTIPO do BANCO
-          doc.image(boleto.logotipo, :x => '0.5 cm', :y => '20.35 cm', :zoom => opts[:logo])
+          doc.image(boleto.logotipo, :x => '0.5 cm', :y => opts[:pos_y].to_s + ' cm', :zoom => opts[:logo])
           # Dados
-          doc.moveto :x => '5.2 cm' , :y => '20.35 cm'
+          doc.moveto :x => '5.2 cm' , :y => opts[:pos_y].to_s + ' cm'
           doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => opts[:grande]
-          doc.moveto :x => '7.5 cm' , :y => '20.35 cm'
+          doc.moveto :x => '7.5 cm' , :y => opts[:pos_y].to_s + ' cm'
           doc.show boleto.codigo_barras.linha_digitavel, :tag => opts[:grande]
           
           doc.text_area boleto.cedente, :width => '8.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
