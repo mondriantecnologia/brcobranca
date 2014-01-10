@@ -164,10 +164,10 @@ module Brcobranca
         end
 
         # Monta o cabeçalho do layout do boleto
-        def modelo_generico_cabecalho(doc, boleto) #, opts = {:grande => [:grande], :logo => 80})
+        def modelo_generico_cabecalho(doc, boleto, opts = {:grande => [:grande], :logo => 80})
           #INICIO Primeira parte do BOLETO
           # LOGOTIPO do BANCO
-          #doc.image(boleto.logotipo, :x => '0.5 cm', :y => '20.35 cm', :zoom => opts[:logo])
+          doc.image(boleto.logotipo, :x => '0.5 cm', :y => '20.35 cm', :zoom => opts[:logo])
           # Dados
           #doc.moveto :x => '5.2 cm' , :y => '20.35 cm'
           #doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => opts[:grande]
