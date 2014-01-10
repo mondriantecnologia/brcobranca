@@ -170,9 +170,9 @@ module Brcobranca
           pos_y = opts[:pos_y]
           doc.image(boleto.logotipo, :x => '0.5 cm', :y => "#{pos_y} cm", :zoom => opts[:logo])
           # Dados
-          doc.moveto :x => '5.2 cm' , :y => "#{pos_y} cm"
+          doc.moveto :x => '5.2 cm' 
           doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => opts[:grande]
-          doc.moveto :x => '7.5 cm' , :y => "#{pos_y} cm"
+          doc.moveto :x => '7.5 cm'
           doc.show boleto.codigo_barras.linha_digitavel, :tag => opts[:grande]
           
           doc.text_area boleto.cedente, :width => '8.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
