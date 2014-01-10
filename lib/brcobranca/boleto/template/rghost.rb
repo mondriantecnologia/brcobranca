@@ -206,7 +206,7 @@ module Brcobranca
           # LOGOTIPO do BANCO
           #doc.text_area cedente, :width => '8.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
 
-          doc.image(boleto.logotipo, :x => '0.5 cm', :y => pos_y.to_s + ' cm', :zoom => 80)
+          doc.image(boleto.logotipo, :x => '0.5 cm', :y => opts[:pos_y].to_s + ' cm', :zoom => 80)
           doc.moveto :x => '5.2 cm' , :y => opts[:pos_y].to_s + ' cm'
           doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => opts[:grande]
           doc.moveto :x => '7.5 cm' , :y => opts[:pos_y].to_s + ' cm'
