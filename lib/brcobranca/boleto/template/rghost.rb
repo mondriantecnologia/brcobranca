@@ -83,7 +83,7 @@ module Brcobranca
           modelo_generico_rodape(doc, boleto)
 
           #Gerando codigo de barra com rghost_barcode
-          doc.barcode_interleaved2of5(boleto.codigo_barras, :width => '12.7 cm', :height => '1.6 cm', :x => '0.7 cm', :y => '1.8 cm' ) if boleto.codigo_barras
+          doc.barcode_interleaved2of5(boleto.codigo_barras, :width => '10.7 cm', :height => '1.2 cm', :x => '0.7 cm', :y => '5.8 cm' ) if boleto.codigo_barras
 
           # Gerando stream
           formato = (options.delete(:formato) || Brcobranca.configuration.formato)
@@ -106,8 +106,8 @@ module Brcobranca
           raise "Não foi possível encontrar o template. Verifique o caminho" unless File.exist?(template_path)
 
           modelo_generico_template(doc, boleto, template_path)
-          modelo_generico_cabecalho(doc, boleto)
-          modelo_generico_rodape(doc, boleto)
+          modelo_generico_cabecalho(doc, boleto, {:grande => [:grande_negrito], :logo => 60})
+          modelo_generico_rodape(doc, boleto, 12.8)
 
           #Gerando codigo de barra com rghost_barcode
           doc.barcode_interleaved2of5(boleto.codigo_barras, :width => '12.7 cm', :height => '1.6 cm', :x => '0.7 cm', :y => '1.8 cm' ) if boleto.codigo_barras
@@ -128,14 +128,13 @@ module Brcobranca
         # @option options [Symbol] :resolucao Resolução em pixels.
         # @option options [Symbol] :formato Formato desejado [:pdf, :jpg, :tif, :png, :ps, :laserjet, ... etc]
         def modelo_generico_multipage(boletos, options={})
-          doc=Document.new :paper => :A4 # 210x297
+          doc=Document.new :paper => :A4, :margin => [0.5, 2, 0.5, 2] # 210x297
 
           template_path = File.join(File.dirname(__FILE__),'..','..','arquivos','templates','modelo_generico.eps')
 
           raise "Não foi possível encontrar o template. Verifique o caminho" unless File.exist?(template_path)
 
           boletos.each_with_index do |boleto, index|
-
             modelo_generico_template(doc, boleto, template_path)
             modelo_generico_cabecalho(doc, boleto)
             modelo_generico_rodape(doc, boleto)
@@ -158,20 +157,22 @@ module Brcobranca
           doc.use_template :template
 
           doc.define_tags do
-            tag :grande, :size => 13
+            tag :grande,         :size => 13
+            tag :negrito,        :name => 'NimbusSanL-BoldItal'
+            tag :grande_negrito, :name => 'NimbusSanL-BoldItal', :size => 13
           end
         end
 
         # Monta o cabeçalho do layout do boleto
-        def modelo_generico_cabecalho(doc, boleto)
+        def modelo_generico_cabecalho(doc, boleto, opts = {:grande => [:grande], :logo => 80})
           #INICIO Primeira parte do BOLETO
           # LOGOTIPO do BANCO
-          doc.image(boleto.logotipo, :x => '0.5 cm', :y => '20.35 cm', :zoom => 80)
+          doc.image(boleto.logotipo, :x => '0.5 cm', :y => '20.35 cm', :zoom => opts[:logo])
           # Dados
           doc.moveto :x => '5.2 cm' , :y => '20.35 cm'
-          doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => :grande
+          doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => opts[:grande]
           doc.moveto :x => '7.5 cm' , :y => '20.35 cm'
-          doc.show boleto.codigo_barras.linha_digitavel, :tag => :grande
+          doc.show boleto.codigo_barras.linha_digitavel, :tag => opts[:grande]
           #doc.moveto :x => '0.7 cm' , :y => '19 cm'
           #doc.show boleto.cedente
           cedente = "#{boleto.cedente}"
@@ -200,15 +201,17 @@ module Brcobranca
         end
 
         # Monta o corpo e rodapé do layout do boleto
-        def modelo_generico_rodape(doc, boleto)
+        def modelo_generico_rodape(doc, boleto, , opts = {:grande => [:grande], :pos_y => 16.8 })
           #INICIO Segunda parte do BOLETO BB
           # LOGOTIPO do BANCO
-          doc.image(boleto.logotipo, :x => '0.5 cm', :y => '12.8 cm', :zoom => 80)
-          doc.moveto :x => '5.2 cm' , :y => '12.8 cm'
-          doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => :grande
-          doc.moveto :x => '7.5 cm' , :y => '12.8 cm'
-          doc.show boleto.codigo_barras.linha_digitavel, :tag => :grande
-          doc.moveto :x => '0.7 cm' , :y => '12 cm'
+          #doc.text_area cedente, :width => '8.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
+
+          doc.image(boleto.logotipo, :x => '0.5 cm', :y => pos_y.to_s + ' cm', :zoom => 80)
+          doc.moveto :x => '5.2 cm' , :y => pos_y.to_s + ' cm'
+          doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => opts[:grande]
+          doc.moveto :x => '7.5 cm' , :y => pos_y.to_s + ' cm'
+          doc.show boleto.codigo_barras.linha_digitavel, :tag => opts[:grande]
+          doc.moveto :x => '0.7 cm' , :y => pos_y.to_s + ' cm'
           doc.show boleto.local_pagamento
           doc.moveto :x => '16.5 cm' , :y => '12 cm'
           doc.show boleto.data_vencimento.to_s_br if boleto.data_vencimento
