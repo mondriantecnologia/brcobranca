@@ -106,7 +106,7 @@ module Brcobranca
           raise "Não foi possível encontrar o template. Verifique o caminho" unless File.exist?(template_path)
 
           modelo_generico_template(doc, boleto, template_path)
-          modelo_generico_cabecalho(doc, boleto) #, {:grande => [:grande_negrito], :logo => 60}
+          modelo_generico_cabecalho(doc, boleto) #, {:grande => :grande_negrito, :logo => 60}
           modelo_generico_rodape(doc, boleto) #, 12.8
 
           #Gerando codigo de barra com rghost_barcode
@@ -164,7 +164,7 @@ module Brcobranca
         end
 
         # Monta o cabeçalho do layout do boleto
-        def modelo_generico_cabecalho(doc, boleto, opts = {:grande => [:grande], :logo => 80})
+        def modelo_generico_cabecalho(doc, boleto, opts = {:grande => :grande, :logo => 80})
           #INICIO Primeira parte do BOLETO
           # LOGOTIPO do BANCO
           doc.image(boleto.logotipo, :x => '0.5 cm', :y => '20.35 cm', :zoom => opts[:logo])
