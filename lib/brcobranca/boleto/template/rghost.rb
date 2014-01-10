@@ -202,7 +202,7 @@ module Brcobranca
           #INICIO Segunda parte do BOLETO BB
           # LOGOTIPO do BANCO
           #doc.text_area cedente, :width => '8.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
-          for i in 0..18
+          for i in 1..19
             doc.moveto :x => i.to_s + ' cm', :y => '10.5 cm'
             doc.show '|'
 
