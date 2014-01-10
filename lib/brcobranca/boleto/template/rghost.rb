@@ -164,15 +164,15 @@ module Brcobranca
         end
 
         # Monta o cabeçalho do layout do boleto
-        def modelo_generico_cabecalho(doc, boleto, opts = {:grande => [:grande], :logo => 80})
+        def modelo_generico_cabecalho(doc, boleto) #, opts = {:grande => [:grande], :logo => 80}
           #INICIO Primeira parte do BOLETO
           # LOGOTIPO do BANCO
-          doc.image(boleto.logotipo, :x => '0.5 cm', :y => '20.35 cm', :zoom => opts[:logo])
+          #doc.image(boleto.logotipo, :x => '0.5 cm', :y => '20.35 cm', :zoom => opts[:logo])
           # Dados
-          doc.moveto :x => '5.2 cm' , :y => '20.35 cm'
-          doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => opts[:grande]
-          doc.moveto :x => '7.5 cm' , :y => '20.35 cm'
-          doc.show boleto.codigo_barras.linha_digitavel, :tag => opts[:grande]
+          #doc.moveto :x => '5.2 cm' , :y => '20.35 cm'
+          #doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => opts[:grande]
+          #doc.moveto :x => '7.5 cm' , :y => '20.35 cm'
+          #doc.show boleto.codigo_barras.linha_digitavel, :tag => opts[:grande]
           #doc.moveto :x => '0.7 cm' , :y => '19 cm'
           #doc.show boleto.cedente
           cedente = "#{boleto.cedente}"
@@ -201,11 +201,11 @@ module Brcobranca
         end
 
         # Monta o corpo e rodapé do layout do boleto
-        def modelo_generico_rodape(doc, boleto, opts = {:grande => [:grande], :pos_y => 16.8 })
+        def modelo_generico_rodape(doc, boleto) #, opts = {:grande => [:grande], :pos_y => 16.8 }
           #INICIO Segunda parte do BOLETO BB
           # LOGOTIPO do BANCO
           #doc.text_area cedente, :width => '8.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
-          for i in 1..30
+          for i in 1..18
             doc.moveto :x => i.to_s + ' cm', :y => '1 cm'
             doc.show '|'
           end
