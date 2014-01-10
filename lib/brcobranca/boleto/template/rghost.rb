@@ -205,13 +205,17 @@ module Brcobranca
           #INICIO Segunda parte do BOLETO BB
           # LOGOTIPO do BANCO
           #doc.text_area cedente, :width => '8.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
+          for i in 1..30
+            doc.moveto :x => i.to_s + ' cm', :y => '1 cm'
+            doc.show '|'
+          end
 
-          doc.image(boleto.logotipo, :x => '0.5 cm', :y => opts[:pos_y].to_s + ' cm', :zoom => 80)
-          doc.moveto :x => '5.2 cm' , :y => opts[:pos_y].to_s + ' cm'
-          doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => opts[:grande]
-          doc.moveto :x => '7.5 cm' , :y => opts[:pos_y].to_s + ' cm'
-          doc.show boleto.codigo_barras.linha_digitavel, :tag => opts[:grande]
-          doc.moveto :x => '0.7 cm' , :y => opts[:pos_y].to_s + ' cm'
+          #doc.image(boleto.logotipo, :x => '0.5 cm', :y => opts[:pos_y].to_s + ' cm', :zoom => 80)
+          #doc.moveto :x => '5.2 cm' , :y => opts[:pos_y].to_s + ' cm'
+          #doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => opts[:grande]
+          #doc.moveto :x => '7.5 cm' , :y => opts[:pos_y].to_s + ' cm'
+          #doc.show boleto.codigo_barras.linha_digitavel, :tag => opts[:grande]
+          #doc.moveto :x => '0.7 cm' , :y => opts[:pos_y].to_s + ' cm'
           doc.show boleto.local_pagamento
           doc.moveto :x => '16.5 cm' , :y => '12 cm'
           doc.show boleto.data_vencimento.to_s_br if boleto.data_vencimento
