@@ -201,7 +201,7 @@ module Brcobranca
         end
 
         # Monta o corpo e rodapé do layout do boleto
-        def modelo_generico_rodape(doc, boleto, , opts = {:grande => [:grande], :pos_y => 16.8 })
+        def modelo_generico_rodape(doc, boleto, opts = {:grande => [:grande], :pos_y => 16.8 })
           #INICIO Segunda parte do BOLETO BB
           # LOGOTIPO do BANCO
           #doc.text_area cedente, :width => '8.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
