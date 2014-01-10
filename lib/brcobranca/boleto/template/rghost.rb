@@ -106,7 +106,7 @@ module Brcobranca
           raise "Não foi possível encontrar o template. Verifique o caminho" unless File.exist?(template_path)
 
           modelo_generico_template(doc, boleto, template_path)
-          modelo_generico_cabecalho(doc, boleto) #, {:grande => [:grande_negrito], :logo => 60}
+          modelo_generico_cabecalho(doc, boleto, {:grande => [:grande_negrito], :logo => 60})
           modelo_generico_rodape(doc, boleto) #, 12.8
 
           #Gerando codigo de barra com rghost_barcode
@@ -164,19 +164,16 @@ module Brcobranca
         end
 
         # Monta o cabeçalho do layout do boleto
-        def modelo_generico_cabecalho(doc, boleto) #, opts = {:grande => [:grande], :logo => 80}
+        def modelo_generico_cabecalho(doc, boleto, opts = {:grande => [:grande], :logo => 80})
           #INICIO Primeira parte do BOLETO
           # LOGOTIPO do BANCO
-          #doc.image(boleto.logotipo, :x => '0.5 cm', :y => '20.35 cm', :zoom => opts[:logo])
+          doc.image(boleto.logotipo, :x => '0.5 cm', :y => '20.35 cm', :zoom => opts[:logo])
           # Dados
-          #doc.moveto :x => '5.2 cm' , :y => '20.35 cm'
-          #doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => opts[:grande]
-          #doc.moveto :x => '7.5 cm' , :y => '20.35 cm'
-          #doc.show boleto.codigo_barras.linha_digitavel, :tag => opts[:grande]
-          #doc.moveto :x => '0.7 cm' , :y => '19 cm'
-          #doc.show boleto.cedente
-          cedente = "#{boleto.cedente}"
-          doc.text_area cedente, :width => '8.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
+          doc.moveto :x => '5.2 cm' , :y => '20.35 cm'
+          doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => opts[:grande]
+          doc.moveto :x => '7.5 cm' , :y => '20.35 cm'
+          doc.show boleto.codigo_barras.linha_digitavel, :tag => opts[:grande]
+          doc.text_area boleto.cedente, :width => '8.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
           doc.moveto :x => '11 cm' , :y => '19.5 cm'
           doc.show boleto.agencia_conta_boleto
           doc.moveto :x => '14.2 cm' , :y => '19.5 cm'
@@ -205,8 +202,11 @@ module Brcobranca
           #INICIO Segunda parte do BOLETO BB
           # LOGOTIPO do BANCO
           #doc.text_area cedente, :width => '8.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
-          for i in 1..18
-            doc.moveto :x => i.to_s + ' cm', :y => '1 cm'
+          for i in 0..20
+            doc.moveto :x => i.to_s + ' cm', :y => '10.5 cm'
+            doc.show '|'
+
+            doc.moveto :x => i.to_s + ' cm', :y => '21 cm'
             doc.show '|'
           end
 
