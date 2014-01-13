@@ -105,9 +105,10 @@ module Brcobranca
 
           raise "Não foi possível encontrar o template. Verifique o caminho" unless File.exist?(template_path)
 
+          opts = {:logo => 60}
           modelo_mondrian_template(doc, boleto, template_path)
-          modelo_mondrian_cabecalho(doc, boleto, {:grande => :grande_negrito, :logo => 60})
-          modelo_mondrian_rodape(doc, boleto, {:grande => :grande_negrito, :logo => 60})
+          modelo_mondrian_cabecalho(doc, boleto, opts)
+          modelo_mondrian_rodape(doc, boleto, opts) 
 
           #Gerando codigo de barra com rghost_barcode
           doc.barcode_interleaved2of5(boleto.codigo_barras, :width => '12.7 cm', :height => '1.6 cm', :x => '0.7 cm', :y => '1.8 cm' ) if boleto.codigo_barras
@@ -157,114 +158,100 @@ module Brcobranca
           doc.use_template :template
 
           doc.define_tags do
-            tag :grande,         :size => 13
-            tag :negrito,        :name => 'NimbusSanL-BoldItal'
-            tag :grande_negrito, :name => 'NimbusSanL-BoldItal', :size => 13
+            tag :grande,  :name => 'NimbusSanL-Bold', :size => 13
+            tag :gigante, :name => 'NimbusSanL-Bold', :size => 16
+            tag :negrito, :name => 'NimbusSanL-Bold'
           end
         end
 
         # Monta o cabeçalho do layout do boleto
-        def modelo_mondrian_cabecalho(doc, boleto, opts = {:grande => :grande, :logo => 80})
+        def modelo_mondrian_cabecalho(doc, boleto, opts = {:logo => 80})
           #doc.use_tag :negrito
+          instrucoes = [
+            "Instruções de Impressão",
+            "- Imprima em impressora jato de tinta (ink jet) ou laser em qualidade normal ou alta (Não use modo econômico).",
+            "- Utilize folha A4 (210 x 297 mm) ou Carta (216 x 279 mm) e margens mínimas à esquerda e à direita do formulário.",
+            "- Corte na linha indicada. Não rasure, risque, fure ou dobre a região onde se encontra o código de barras.",
+            "- Caso não apareça o código de barras no final, clique em F5 para atualizar esta tela.",
+            "- Caso tenha problemas ao imprimir, copie a sequencia numérica abaixo e pague no caixa eletrônico ou internet banking:"
+          ]
+
+          doc.text_in :write => instrucoes[0], :x => 9, :y => 29
+          doc.text_in :write => instrucoes[1], :x => 1, :y => 28.5
+          doc.text_in :write => instrucoes[2], :x => 1, :y => 28
+          doc.text_in :write => instrucoes[3], :x => 1, :y => 27.5
+          doc.text_in :write => instrucoes[4], :x => 1, :y => 27
+          doc.text_in :write => instrucoes[5], :x => 1, :y => 26.5
+
+          #Linha Digitável: 23792.21407 60900.090683 62002.710507 8 59430000006930
+          #Valor: R$ 69,30
+          # ORIGEM: CAPITAL
+          # PLACA: HXH0000
+
           #INICIO Primeira parte do BOLETO
           # LOGOTIPO do BANCO
-          doc.image(boleto.logotipo, :x => '0.5 cm', :y => "20.35 cm", :zoom => opts[:logo])
+          doc.image(boleto.logotipo, :x => '0.5 cm', :y => "20.45 cm", :zoom => opts[:logo])
           # Dados
-          #doc.text_in :write => "#{boleto.banco}-#{boleto.banco_dv}", :x => '5.2 cm', :y => "20.35 cm", :tag => opts[:grande]
-          #doc.text_in :write => boleto.codigo_barras.linha_digitavel, :x => '7.5 cm', :y => "20.35 cm", :tag => opts[:grande]
-          
-          doc.text_area boleto.cedente, :width => '8.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
-          doc.moveto :x => '11 cm' , :y => '19.5 cm'
-          doc.show boleto.agencia_conta_boleto
-          doc.moveto :x => '14.2 cm' , :y => '19.5 cm'
-          doc.show boleto.especie
-          doc.moveto :x => '15.7 cm' , :y => '19.5 cm'
-          doc.show boleto.quantidade
-          doc.moveto :x => '18 cm' , :y => '19.5 cm'
-          doc.show boleto.nosso_numero_boleto
+          doc.text_in :write => "#{boleto.banco}-#{boleto.banco_dv}", :x => '5.14 cm', :y => "20.35 cm", :tag => :gigante
+          doc.text_in :write => boleto.codigo_barras.linha_digitavel, :x => '7.5 cm', :y => "20.35 cm", :tag => :grande
+          # Linha 1
+          doc.text_area boleto.cedente, :width => "8.5 cm",   :x => "0.7 cm",  :y => "19.5 cm"
+          doc.text_in :write => boleto.agencia_conta_boleto,  :x => "11 cm",   :y => "19.5 cm"
+          doc.text_in :write => boleto.especie,               :x => "14.2 cm", :y => "19.5 cm"
+          doc.text_in :write => boleto.quantidade,            :x => "15.7 cm", :y => "19.5 cm"
+          doc.text_in :write => boleto.nosso_numero_boleto,   :x => "18 cm",   :y => "19.5 cm"
 
+          # Linha 2
+          doc.text_in :write => boleto.numero_documento,                          :x => "0.7 cm",   :y => "18.25 cm"
+          doc.text_in :write => "#{boleto.documento_cedente.formata_documento}",  :x => "7 cm",     :y => "18.25 cm"
+          doc.text_in :write => boleto.data_vencimento.to_s_br,                   :x => "12 cm",    :y => "18.25 cm"
+          doc.text_in :write => boleto.valor_documento.to_currency,               :x => "19.68 cm", :y => "18.25 cm"
 
-          doc.moveto :x => '0.7 cm' , :y => '18.2 cm'
-          doc.show boleto.numero_documento
-          doc.moveto :x => '7 cm' , :y => '18.2 cm'
-          doc.show "#{boleto.documento_cedente.formata_documento}"
-          doc.moveto :x => '12 cm' , :y => '18.2 cm'
-          doc.show boleto.data_vencimento.to_s_br
-          doc.moveto :x => '19.7 cm' , :y => '18.2 cm'
-          doc.show boleto.valor_documento.to_currency
-
-          doc.moveto :x => '1.4 cm' , :y => '16.9 cm'
-          doc.show "#{boleto.sacado_endereco}"
-          doc.moveto :x => '1.4 cm' , :y => '16.6 cm'
-          doc.show "#{boleto.sacado} - #{boleto.sacado_documento.formata_documento}"
+          doc.text_in :write => "#{boleto.sacado_endereco}", :x => "1.4 cm" , :y => "16.9 cm"
+          doc.text_in :write => "#{boleto.sacado} - #{boleto.sacado_documento.formata_documento}", :x => "1.4 cm" , :y => "16.6 cm"
           #FIM Primeira parte do BOLETO
         end
 
         # Monta o corpo e rodapé do layout do boleto
-        def modelo_mondrian_rodape(doc, boleto)
+        def modelo_mondrian_rodape(doc, boleto, opts = {:logo => 80})
           #INICIO Segunda parte do BOLETO BB
           # LOGOTIPO do BANCO
-          doc.text_area cedente, :width => '8.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
-          doc.image(boleto.logotipo, :x => '0.5 cm', :y => '16.8 cm', :zoom => 60)
-          doc.moveto :x => '5.2 cm' , :y => '16.8 cm'
-          doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => :grande
-          doc.moveto :x => '7.5 cm' , :y =>  '16.8 cm'
-          doc.show boleto.codigo_barras.linha_digitavel, :tag => :grande
-          doc.moveto :x => '0.7 cm' , :y => '16.8 cm'
-          doc.show boleto.local_pagamento
-          doc.moveto :x => '0.7 cm' , :y => '11.2 cm'
-          doc.show boleto.cedente
-          doc.moveto :x => '19 cm' , :y => '12 cm'
-          doc.show boleto.data_vencimento.to_s_br if boleto.data_vencimento
+          doc.image(boleto.logotipo, :x => "0.5 cm", :y => "13 cm", :zoom => opts[:logo])
+          doc.text_in :write => "#{boleto.banco}-#{boleto.banco_dv}", :x => "5.14 cm" , :y => "12.94 cm", :tag => :gigante
+          doc.text_in :write => boleto.codigo_barras.linha_digitavel, :x => "7.5 cm" , :y =>  "12.94 cm", :tag => :grande
 
-          doc.moveto :x => '17.9 cm' , :y => '11.2 cm'
-          doc.show boleto.agencia_conta_boleto
-
-          doc.moveto :x => '0.7 cm' , :y => '10.4 cm'
-          doc.show boleto.data_documento.to_s_br if boleto.data_documento
-          doc.moveto :x => '4.2 cm' , :y => '10.4 cm'
-          doc.show boleto.numero_documento
-          doc.moveto :x => '10 cm' , :y => '10.4 cm'
-          doc.show boleto.especie_documento
-          doc.moveto :x => '11.7 cm' , :y => '10.4 cm'
-          doc.show boleto.aceite
-          doc.moveto :x => '13 cm' , :y => '10.4 cm'
-          doc.show boleto.data_processamento.to_s_br if boleto.data_processamento
-
-          doc.moveto :x => '18 cm' , :y => '10.4 cm'
-          doc.show boleto.nosso_numero_boleto
-
-          doc.moveto :x => '4.4 cm' , :y => '9.5 cm'
-          doc.show boleto.carteira
-          doc.moveto :x => '6.4 cm' , :y => '9.5 cm'
-          doc.show boleto.especie
-          doc.moveto :x => '8 cm' , :y => '9.5 cm'
-          doc.show boleto.quantidade
-          # doc.moveto :x => '11 cm' , :y => '13.5 cm'
+          # Linha 1
+          doc.text_in :write => boleto.local_pagamento,            :x => "0.7 cm",  :y => "12 cm"
+          doc.text_in :write => boleto.data_vencimento.to_s_br,    :x => "18.97 cm",:y => "12 cm"   if boleto.data_vencimento
+          # Linha 2
+          doc.text_in :write => boleto.cedente,                    :x => "0.7 cm",  :y => "11.2 cm"
+          doc.text_in :write => boleto.agencia_conta_boleto,       :x => "17.9 cm", :y => "11.2 cm"
+          # Linha 3
+          doc.text_in :write => boleto.data_documento.to_s_br,     :x => "0.7 cm",  :y => "10.4 cm" if boleto.data_documento
+          doc.text_in :write => boleto.numero_documento,           :x => "4.2 cm",  :y => "10.4 cm"
+          doc.text_in :write => boleto.especie_documento,          :x => "10 cm",   :y => "10.4 cm"
+          doc.text_in :write => boleto.aceite,                     :x => "11.7 cm", :y => "10.4 cm"
+          doc.text_in :write => boleto.data_processamento.to_s_br, :x => "13 cm",   :y => "10.4 cm" if boleto.data_processamento
+          doc.text_in :write => boleto.nosso_numero_boleto,        :x => "18 cm" ,  :y => "10.4 cm"
+          #Linha 4
+          doc.text_in :write => boleto.carteira,   :x => "4.4 cm", :y => "9.58 cm"
+          doc.text_in :write => boleto.especie,    :x => "6.4 cm", :y => "9.58 cm"
+          doc.text_in :write => boleto.quantidade, :x => "8 cm",   :y => "9.58 cm"
+          # doc.moveto :x => "11 cm" , :y => "13.5 cm"
           # doc.show boleto.valor.to_currency
 
-          doc.moveto :x => '19.7 cm' , :y => '9.5 cm'
-          doc.show boleto.valor_documento.to_currency
+          doc.show boleto.valor_documento.to_currency, :x => "19.7 cm" , :y => "9.5 cm"
 
-          doc.moveto :x => '0.7 cm' , :y => '8.7 cm'
-          doc.show boleto.instrucao1
-          doc.moveto :x => '0.7 cm' , :y => '8.3 cm'
-          doc.show boleto.instrucao2
-          doc.moveto :x => '0.7 cm' , :y => '7.9 cm'
-          doc.show boleto.instrucao3
-          doc.moveto :x => '0.7 cm' , :y => '7.5 cm'
-          doc.show boleto.instrucao4
-          doc.moveto :x => '0.7 cm' , :y => '7.1 cm'
-          doc.show boleto.instrucao5
-          doc.moveto :x => '0.7 cm' , :y => '6.7 cm'
-          doc.show boleto.instrucao6
-          doc.moveto :x => '1.2 cm' , :y => '4.8 cm'
-          doc.show "#{boleto.sacado} - #{boleto.sacado_documento.formata_documento}" if boleto.sacado && boleto.sacado_documento
-          doc.moveto :x => '1.2 cm' , :y => '4.4 cm'
-          doc.show "#{boleto.sacado_endereco}"
+          doc.text_in :write => boleto.instrucao1, :x => "0.7 cm" , :y => "8.7 cm"
+          doc.text_in :write => boleto.instrucao2, :x => "0.7 cm" , :y => "8.3 cm"
+          doc.text_in :write => boleto.instrucao3, :x => "0.7 cm" , :y => "7.9 cm"
+          doc.text_in :write => boleto.instrucao4, :x => "0.7 cm" , :y => "7.5 cm"
+          doc.text_in :write => boleto.instrucao5, :x => "0.7 cm" , :y => "7.1 cm"
+          doc.text_in :write => boleto.instrucao6, :x => "0.7 cm" , :y => "6.7 cm"
+          doc.text_in :write => "#{boleto.sacado} - #{boleto.sacado_documento.formata_documento}", :x => "1.2 cm" , :y => "4.8 cm" if boleto.sacado && boleto.sacado_documento
+          doc.text_in :write => "#{boleto.sacado_endereco}", :x => "1.2 cm" , :y => "4.4 cm"
           #FIM Segunda parte do BOLETO
         end
-
       end #Base
     end
   end
