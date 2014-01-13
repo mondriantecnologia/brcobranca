@@ -192,7 +192,7 @@ module Brcobranca
           doc.show "#{boleto.documento_cedente.formata_documento}"
           doc.moveto :x => '12 cm' , :y => '18.2 cm'
           doc.show boleto.data_vencimento.to_s_br
-          doc.moveto :x => '19.5 cm' , :y => '18.2 cm'
+          doc.moveto :x => '19.7 cm' , :y => '18.2 cm'
           doc.show boleto.valor_documento.to_currency
 
           doc.moveto :x => '1.4 cm' , :y => '16.9 cm'
@@ -217,7 +217,7 @@ module Brcobranca
           doc.show boleto.local_pagamento
           doc.moveto :x => '0.7 cm' , :y => '11.2 cm'
           doc.show boleto.cedente
-          doc.moveto :x => '18.9 cm' , :y => '12 cm'
+          doc.moveto :x => '19 cm' , :y => '12 cm'
           doc.show boleto.data_vencimento.to_s_br if boleto.data_vencimento
 
           doc.moveto :x => '17.9 cm' , :y => '11.2 cm'
@@ -246,7 +246,7 @@ module Brcobranca
           # doc.moveto :x => '11 cm' , :y => '13.5 cm'
           # doc.show boleto.valor.to_currency
 
-          doc.moveto :x => '19.5 cm' , :y => '9.5 cm'
+          doc.moveto :x => '19.7 cm' , :y => '9.5 cm'
           doc.show boleto.valor_documento.to_currency
 
           doc.moveto :x => '0.7 cm' , :y => '8.7 cm'
