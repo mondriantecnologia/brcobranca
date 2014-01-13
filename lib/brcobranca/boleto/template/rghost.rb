@@ -79,7 +79,7 @@ module Brcobranca
           raise "Não foi possível encontrar o template. Verifique o caminho" unless File.exist?(template_path)
 
           modelo_generico_template(doc, boleto, template_path)
-          modelo_generico_cabecalho(doc, boleto)
+          modelo_generico_cabecalho(doc, boleto, {})
           modelo_generico_rodape(doc, boleto)
 
           #Gerando codigo de barra com rghost_barcode
@@ -165,13 +165,13 @@ module Brcobranca
 
         # Monta o cabeçalho do layout do boleto
         def modelo_mondrian_cabecalho(doc, boleto, opts = {:grande => :grande, :logo => 80})
-          doc.use_tag :negrito
+          #doc.use_tag :negrito
           #INICIO Primeira parte do BOLETO
           # LOGOTIPO do BANCO
           doc.image(boleto.logotipo, :x => '0.5 cm', :y => "20.35 cm", :zoom => opts[:logo])
           # Dados
-          doc.text_in :write => "#{boleto.banco}-#{boleto.banco_dv}", :x => '5.2 cm', :y => "20.35 cm", :tag => opts[:grande]
-          doc.text_in :write => boleto.codigo_barras.linha_digitavel, :x => '7.5 cm', :y => "20.35 cm", :tag => opts[:grande]
+          #doc.text_in :write => "#{boleto.banco}-#{boleto.banco_dv}", :x => '5.2 cm', :y => "20.35 cm", :tag => opts[:grande]
+          #doc.text_in :write => boleto.codigo_barras.linha_digitavel, :x => '7.5 cm', :y => "20.35 cm", :tag => opts[:grande]
           
           doc.text_area boleto.cedente, :width => '8.5 cm', :x => '0.7 cm' , :y => '19.5 cm'
           doc.moveto :x => '11 cm' , :y => '19.5 cm'
