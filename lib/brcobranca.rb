@@ -121,5 +121,11 @@ module Brcobranca
     autoload :RetornoCnab240,  'brcobranca/retorno/retorno_cnab240'
     autoload :RetornoCnab400,  'brcobranca/retorno/retorno_cnab400'
   end
+  
+  # Módulos para classes de remessas
+  module Remessa
+    autoload :Base,     'brcobranca/remessa/base'
+    autoload :Bradesco, 'brcobranca/remessa/bradesco'
+  end
 end
 
