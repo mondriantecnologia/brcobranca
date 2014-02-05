@@ -1,4 +1,3 @@
-require 'parseline'
 module Brcobranca
   module Remessa
     class Bradesco < Base
@@ -18,7 +17,7 @@ module Brcobranca
         @arquivo.write(primeira_linha)
         
         if self.objeto.class == PagamentoEstorno
-          numero_de_registros = self.corpo_pagamento_estorno(objeto)
+          numero_de_registros = self.corpo_pagamento_estorno
           rodape = self.rodape_pagamento_estorno(numero_de_registros)
           @arquivo.write(rodape)
         end
@@ -28,7 +27,7 @@ module Brcobranca
         comando = "sed -i 's/$/\\r/' #{nome_arquivo}"    
         system(comando)
 
-        self.objeto.arquivo = "/estornos/cecaf/#{base_arquivo}"
+        self.objeto.arquivo = "/estornos/cecaf/#{self.nome_arquivo}"
         self.objeto.save
       end
       
