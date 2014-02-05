@@ -8,7 +8,7 @@
 
 == DESCRIÇÃO
 
-Gem para emissão de boletos de cobrança para bancos brasileiros
+Gem para emissão de boletos de cobrança para bancos brasileiros / Geração arquivos de remessa ( Bradesco )
 
 == Bancos Disponíveis
 
