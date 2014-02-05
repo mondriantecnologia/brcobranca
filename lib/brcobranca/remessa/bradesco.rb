@@ -26,9 +26,6 @@ module Brcobranca
 
         comando = "sed -i 's/$/\\r/' #{nome_arquivo}"    
         system(comando)
-
-        self.objeto.arquivo = "/estornos/cecaf/#{self.nome_arquivo}"
-        self.objeto.save
       end
       
       def cabecalho_generico
