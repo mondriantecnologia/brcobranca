@@ -74,6 +74,7 @@ module Brcobranca
       # Dados necessários para nossos boletos 
       attr_accessor :origem
       attr_accessor :placa
+      attr_accessor :total_rps
 
       # Validações
       validates_presence_of :agencia, :conta_corrente, :moeda, :especie_documento, :especie, :aceite, :numero_documento, :origem, :placa, :message => "não pode estar em branco."
