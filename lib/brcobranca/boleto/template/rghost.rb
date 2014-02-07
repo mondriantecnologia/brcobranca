@@ -172,7 +172,7 @@ module Brcobranca
             "- Imprima em impressora jato de tinta (ink jet) ou laser em qualidade normal ou alta (Não use modo econômico).",
             "- Utilize folha A4 (210 x 297 mm) ou Carta (216 x 279 mm) e margens mínimas à esquerda e à direita do formulário.",
             "- Corte na linha indicada. Não rasure, risque, fure ou dobre a região onde se encontra o código de barras.",
-            "- Caso não apareça o código de barras no final, clique em F5 para atualizar esta tela.",
+            "- Caso não apareça o código de barras no final, emita novamente o boleto.",
             "- Caso tenha problemas ao imprimir, copie a sequencia numérica abaixo e pague no caixa eletrônico ou internet banking:"
           ]
 
