@@ -38,6 +38,15 @@ module Brcobranca
       attr_accessor :valor_ajuste
       attr_accessor :sequencial
       attr_accessor :arquivo
+      
+      attr_accessor :dia_base
+      attr_accessor :mes_base
+      attr_accessor :ano_base
+      attr_accessor :numero_documento
+      attr_accessor :dia_pagamento
+      attr_accessor :mes_pagamento
+      attr_accessor :ano_pagamento
+      attr_accessor :valor
     end
   end
 end
