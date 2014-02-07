@@ -185,8 +185,12 @@ module Brcobranca
 
           doc.text_in :write => "Linha Digitável: #{boleto.codigo_barras.linha_digitavel}",       :x => "1 cm",    :y => "24 cm",   :tag => :comprovante
           doc.text_in :write => "Valor: #{boleto.especie} #{boleto.valor_documento.to_currency}", :x => "1 cm",    :y => "23.5 cm", :tag => :comprovante 
-          doc.text_in :write => "Origem: #{boleto.origem}",                                       :x => "6 cm",    :y => "23.5 cm", :tag => :comprovante 
-          doc.text_in :write => "Placa: #{boleto.placa}",                                         :x => "10.5 cm", :y => "23.5 cm", :tag => :comprovante 
+          if boleto.placa
+            doc.text_in :write => "Origem: #{boleto.origem}",                                       :x => "6 cm",    :y => "23.5 cm", :tag => :comprovante 
+            doc.text_in :write => "Placa: #{boleto.placa}",                                         :x => "10.5 cm", :y => "23.5 cm", :tag => :comprovante 
+          else
+            doc.text_in :write => "Total de Requerimentos: #{boleto.origem}",                       :x => "6 cm",    :y => "23.5 cm", :tag => :comprovante 
+          end
           # ORIGEM: CAPITAL
           # PLACA: HXH0000
 
