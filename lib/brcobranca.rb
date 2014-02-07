@@ -116,15 +116,16 @@ module Brcobranca
 
   # Módulos para classes de retorno bancário
   module Retorno
-    autoload :Base,           'brcobranca/retorno/base'
-    autoload :RetornoCbr643,  'brcobranca/retorno/retorno_cbr643'
-    autoload :RetornoCnab240,  'brcobranca/retorno/retorno_cnab240'
-    autoload :RetornoCnab400,  'brcobranca/retorno/retorno_cnab400'
+    autoload :Base, 'brcobranca/retorno/base'
+    autoload :RetornoCbr643, 'brcobranca/retorno/retorno_cbr643'
+    autoload :RetornoCnab240, 'brcobranca/retorno/retorno_cnab240'
+    autoload :RetornoCnab400, 'brcobranca/retorno/retorno_cnab400'
+    autoload :RetornoBradesco, 'brcobranca/retorno/retorno_bradesco'
   end
   
   # Módulos para classes de remessas
   module Remessa
-    autoload :Base,     'brcobranca/remessa/base'
+    autoload :Base, 'brcobranca/remessa/base'
     autoload :Bradesco, 'brcobranca/remessa/bradesco'
   end
 end
