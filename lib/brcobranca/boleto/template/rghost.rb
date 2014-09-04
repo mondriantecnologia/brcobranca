@@ -180,22 +180,22 @@ module Brcobranca
           ]
 
           doc.text_in :write => instrucoes[0], :x => "9 cm", :y => "28 cm"  , :tag => :negrito  
-          doc.text_in :write => instrucoes[1], :x => "1 cm", :y => "27.2 cm", :tag => :negrito    
-          doc.text_in :write => instrucoes[2], :x => "1 cm", :y => "26.7 cm", :tag => :negrito    
-          doc.text_in :write => instrucoes[3], :x => "1 cm", :y => "26.2 cm", :tag => :negrito    
-          doc.text_in :write => instrucoes[4], :x => "1 cm", :y => "25.7 cm", :tag => :negrito    
-          doc.text_in :write => instrucoes[5], :x => "1 cm", :y => "25.2 cm", :tag => :negrito
-          doc.text_in :write => instrucoes[6], :x => "1 cm", :y => "24.8 cm", :tag => :negrito
-          doc.text_in :write => instrucoes[7], :x => "1 cm", :y => "24.4 cm", :tag => :negrito
-          doc.text_in :write => instrucoes[8], :x => "1 cm", :y => "23.9 cm", :tag => :negrito    
+          doc.text_in :write => instrucoes[1], :x => "1 cm", :y => "27.4 cm", :tag => :negrito    
+          doc.text_in :write => instrucoes[2], :x => "1 cm", :y => "26.9 cm", :tag => :negrito    
+          doc.text_in :write => instrucoes[3], :x => "1 cm", :y => "26.4 cm", :tag => :negrito    
+          doc.text_in :write => instrucoes[4], :x => "1 cm", :y => "25.9 cm", :tag => :negrito    
+          doc.text_in :write => instrucoes[5], :x => "1 cm", :y => "25.4 cm", :tag => :negrito
+          doc.text_in :write => instrucoes[6], :x => "1 cm", :y => "25 cm", :tag => :negrito
+          doc.text_in :write => instrucoes[7], :x => "1 cm", :y => "24.8 cm", :tag => :negrito
+          doc.text_in :write => instrucoes[8], :x => "1 cm", :y => "24.1 cm", :tag => :negrito    
 
-          doc.text_in :write => "Linha Digitável: #{boleto.codigo_barras.linha_digitavel}",       :x => "1 cm",    :y => "23 cm",   :tag => :comprovante
-          doc.text_in :write => "Valor: #{boleto.especie} #{boleto.valor_documento.to_currency}", :x => "1 cm",    :y => "22.5 cm", :tag => :comprovante 
+          doc.text_in :write => "Linha Digitável: #{boleto.codigo_barras.linha_digitavel}",       :x => "1 cm",    :y => "23.3 cm",   :tag => :comprovante
+          doc.text_in :write => "Valor: #{boleto.especie} #{boleto.valor_documento.to_currency}", :x => "1 cm",    :y => "22.8 cm", :tag => :comprovante 
           if ["CAPITAL", "INTERIOR"].include? boleto.origem 
-            doc.text_in :write => "Origem: #{boleto.origem}",                                       :x => "6 cm",    :y => "22.5 cm", :tag => :comprovante 
-            doc.text_in :write => "Placa: #{boleto.placa}",                                         :x => "10.5 cm", :y => "22.5 cm", :tag => :comprovante 
+            doc.text_in :write => "Origem: #{boleto.origem}",                                       :x => "6 cm",    :y => "22.8 cm", :tag => :comprovante 
+            doc.text_in :write => "Placa: #{boleto.placa}",                                         :x => "10.5 cm", :y => "22.8 cm", :tag => :comprovante 
           elsif boleto.origem == "CRDD"
-            doc.text_in :write => "Total de Requerimentos: #{boleto.total_rps}",                    :x => "6 cm",    :y => "22.5 cm", :tag => :comprovante 
+            doc.text_in :write => "Total de Requerimentos: #{boleto.total_rps}",                    :x => "6 cm",    :y => "22.8 cm", :tag => :comprovante 
           end
           # ORIGEM: CAPITAL
           # PLACA: HXH0000
