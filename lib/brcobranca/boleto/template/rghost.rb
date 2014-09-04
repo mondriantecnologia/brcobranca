@@ -173,9 +173,9 @@ module Brcobranca
             "- Utilize folha A4 (210 x 297 mm) ou Carta (216 x 279 mm) e margens mínimas à esquerda e à direita do formulário.",
             "- Corte na linha indicada. Não rasure, risque, fure ou dobre a região onde se encontra o código de barras.",
             "- Caso não apareça o código de barras no final, emita novamente o boleto.",
-            "- Por motivo de segurança e visando eliminar quaisquer tentativas de fraude, o ressarcimento dos boletos não utilizados somente será realizado",
-            "  ao próprio SACADO ou a quem este indique (seja Pessoa Física ou Jurídica), mediante DECLARAÇÃO escrita e com firma reconhecida em Cartório,",
-            "  além da apresentação do boleto original.",
+            "- Por motivo de segurança e visando eliminar quaisquer tentativas de fraude, o ressarcimento dos boletos não utilizados somente será",
+            "  realizado ao próprio SACADO ou a quem este indique (seja Pessoa Física ou Jurídica), mediante DECLARAÇÃO escrita e com firma",
+            "  reconhecida em Cartório, além da apresentação do boleto original.",
             "- Caso tenha problemas ao imprimir, copie a sequencia numérica abaixo e pague no caixa eletrônico ou internet banking:"
           ]
 
