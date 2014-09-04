@@ -168,11 +168,12 @@ module Brcobranca
         # Monta o cabeçalho do layout do boleto
         def modelo_mondrian_cabecalho(doc, boleto, opts = {:logo => 80})
           instrucoes = [
-            "Instruções de Impressão",
+            "Instruções",
             "- Imprima em impressora jato de tinta (ink jet) ou laser em qualidade normal ou alta (Não use modo econômico).",
             "- Utilize folha A4 (210 x 297 mm) ou Carta (216 x 279 mm) e margens mínimas à esquerda e à direita do formulário.",
             "- Corte na linha indicada. Não rasure, risque, fure ou dobre a região onde se encontra o código de barras.",
             "- Caso não apareça o código de barras no final, emita novamente o boleto.",
+            "- Por motivo de segurança e visando eliminar quaisquer tentativas de fraude, o ressarcimento dos boletos não utilizados somente será realizado ao próprio SACADO ou a quem este indique (seja Pessoa Física ou Jurídica), mediante DECLARAÇÃO escrita e com firma reconhecida em Cartório, além da apresentação do boleto original.",
             "- Caso tenha problemas ao imprimir, copie a sequencia numérica abaixo e pague no caixa eletrônico ou internet banking:"
           ]
 
@@ -182,6 +183,7 @@ module Brcobranca
           doc.text_in :write => instrucoes[3], :x => "1 cm", :y => "26.2 cm", :tag => :negrito    
           doc.text_in :write => instrucoes[4], :x => "1 cm", :y => "25.7 cm", :tag => :negrito    
           doc.text_in :write => instrucoes[5], :x => "1 cm", :y => "25.2 cm", :tag => :negrito    
+          doc.text_in :write => instrucoes[5], :x => "1 cm", :y => "23.7 cm", :tag => :negrito    
 
           doc.text_in :write => "Linha Digitável: #{boleto.codigo_barras.linha_digitavel}",       :x => "1 cm",    :y => "24 cm",   :tag => :comprovante
           doc.text_in :write => "Valor: #{boleto.especie} #{boleto.valor_documento.to_currency}", :x => "1 cm",    :y => "23.5 cm", :tag => :comprovante 
