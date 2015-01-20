@@ -25,6 +25,12 @@ module Brcobranca
           numero_de_registros = self.corpo_pagamento_estorno
           rodape = self.rodape_pagamento_estorno(numero_de_registros)
           @arquivo.write(rodape)
+        if self.objeto.class == Repasse
+          primeira_linha = self.cabecalho_arquivo_repasse
+          @arquivo.write(primeira_linha)
+          numero_de_registros = self.corpo_arquivo_repasse
+          rodape = self.rodape_arquivo_repasse(numero_de_registros)
+          @arquivo.write(rodape)
         end
         
         @arquivo.close
@@ -80,6 +86,35 @@ module Brcobranca
         self.parametros.sequencial_arquivo_cobranca += 1
         self.parametros.numero_da_lista_de_debito += 1
         self.parametros.save 
+        return primeira_linha
+      end
+      
+      def cabecalho_arquivo_repasse
+        primeira_linha = "0" #001 A 001 - Identificação do Registro - 001 -Obrigatório – fixo “zero”(0)
+        primeira_linha << self.parametros.codigo_de_comunicacao.to_s.rjust(8,'0') # 002 A 009 - Código de Comunicação - 008 
+        primeira_linha << '2' #010 A 010 -  Tipo de Inscrição da Empresa Pagadora - 1 = CPF / 2 = CNPJ / 3= OUTROS
+        primeira_linha << self.parametros.cnpj_cedente.rjust(15,'0') #011 A 025 - CNPJ/CPF Base da Empresa Pagadora
+        primeira_linha << I18n.transliterate(self.parametros.cedente)[0,40].ljust(40," ").upcase # 26 a 65 nome da empresa      
+        primeira_linha << '20' #066 A 067 Tipo de Serviço Fixo “20”
+        primeira_linha << '1' #068 A 068 Código de origem do arquivo Fixo “1”
+        primeira_linha << self.parametros.sequencial_arquivo_cobranca.to_s.rjust(5,"0")   # 069 a 073 numero sequencial de remessa
+        primeira_linha << '00000' #074 A 078 - Número do retorno Campo válido somente para o arquivo retorno – fixo zeros 
+        primeira_linha << Time.now.strftime('%Y%m%d').to_s.rjust(8,"0") # 079 a 086 data de gravaçao do arquivo 
+        primeira_linha << Time.now.strftime('%H%M%S').to_s.rjust(6,"0") #087 A 092 -hora da gravacao do arquivo
+        primeira_linha << ''.ljust(5,' ') #093 A 097 -  brancos
+        primeira_linha << ''.ljust(3,' ') #098 A 100 -  brancos
+        primeira_linha << ''.ljust(5,' ') #101 A 105 -  brancos
+        primeira_linha << '0' #106 A 106 - Tipo de processamento - Preencher com 0
+        primeira_linha << ''.ljust(74,' ') #107 A 180 - Reservado a empresa preencher com brancos
+        primeira_linha << ''.ljust(80,' ') #181 A 260 - Reservado ao banco preencher com brancos
+        primeira_linha << ''.ljust(217,' ') #361 A 477 - Reservado ao banco preencher com brancos
+        primeira_linha << self.parametros.numero_da_lista_de_debito.to_s.rjust(9,'0') #478 A 486 - Numero da lista de debito
+        primeira_linha << ''.ljust(8,' ') #487 A 494 - Reservado ao banco preencher com brancos
+        primeira_linha << s.to_s.rjust(6,"0") # 495 a 500 numero sequencial do registro de um em um 
+        primeira_linha << "\n"
+        self.parametros.sequencial_arquivo_cobranca += 1
+        self.parametros.numero_da_lista_de_debito += 1
+        self.parametros.save         
         return primeira_linha
       end
       
