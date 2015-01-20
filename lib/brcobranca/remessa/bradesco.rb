@@ -248,7 +248,7 @@ module Brcobranca
 
       def corpo_arquivo_repasse
         numero_de_registros = self.num_sequencia
-        self.objeto.itens.each do |item_repasse|
+        self.objeto.itens_repasses.each do |item_repasse|
           if item_repasse.valor >= 0.01
             numero_de_registros += 1
             informacoes_complementares = (item_repasse.cartorio.dados_cartorario.codigo_banco == '237' ? ''.ljust(40,' ') : "C000000010#{item_repasse.cartorio.dados_cartorario.tipo_conta}".ljust(40,' ') )
