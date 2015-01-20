@@ -315,7 +315,6 @@ module Brcobranca
         return numero_de_registros
       end
 
-    
       def rodape_arquivo_remessa(numero_de_registros)
         numero_de_registros += 1
         linha_rodape = "9" # identificacao do registro
@@ -334,6 +333,17 @@ module Brcobranca
         linha_rodape << numero_de_registros.to_s.rjust(6,"0")  # 495 a 500 num sequencial do registro
         linha_rodape << "\n"
         return linha_rodape        
+      end
+      
+      def rodape_arquivo_repasse(numero_de_registros)
+        numero_de_registros += 1
+        linha_rodape = '9' # 001 A 001 - fixo 9
+        linha_rodape << numero_de_registros.to_s.rjust(6,'0') # 002 A 007 - quantidade de registros incluindo o header e o proprio trailer
+        linha_rodape << self.objeto.valor.contabil.gsub('.','').gsub(',','').rjust(17,"0") # 008 A 024 - Valor dos registros
+        linha_rodape << ''.ljust(470,' ') # 025 A 494 # fixo branco
+        linha_rodape << numero_de_registros.to_s.rjust(6,"0")  # 495 a 500 num sequencial do registro
+        linha_rodape << "\n"
+        return linha_rodape    
       end
       
       def retira_acentos(texto) 
