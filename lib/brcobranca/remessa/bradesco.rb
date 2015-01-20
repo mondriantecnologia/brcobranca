@@ -25,7 +25,7 @@ module Brcobranca
           numero_de_registros = self.corpo_pagamento_estorno
           rodape = self.rodape_pagamento_estorno(numero_de_registros)
           @arquivo.write(rodape)
-        if self.objeto.class == Repasse
+        elsif self.objeto.class == Repasse
           primeira_linha = self.cabecalho_arquivo_repasse
           @arquivo.write(primeira_linha)
           numero_de_registros = self.corpo_arquivo_repasse
