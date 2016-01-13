@@ -243,33 +243,33 @@ module Brcobranca
           end
 
           # Linha 2
-          doc.text_in :write => "#{boleto.cedente} - #{boleto.documento_cedente.formata_documento}, #{boleto.endereco_cedente}",  :x => "0.7 cm",  :y => "10.16 cm", :width => "17 cm", :tag => :negrito  
+          doc.text_in :write => "#{boleto.cedente} - #{boleto.documento_cedente.formata_documento}\n #{boleto.endereco_cedente}",  :x => "0.7 cm",  :y => "10.16 cm", :width => "17 cm", :tag => :negrito  
           doc.text_area "<negrito>#{boleto.agencia_conta_boleto}</negrito>",        :x => "13.68 cm", :y => "10.16 cm", :text_align => :right, :width => "6.83 cm"
           
-          # Linha 3
-          doc.text_in :write => boleto.data_documento.to_s_br,     :x => "0.7 cm",  :y => "9 cm", :tag => :negrito   if boleto.data_documento
-          doc.text_in :write => boleto.numero_documento,           :x => "4 cm",    :y => "10.4 cm", :tag => :negrito  
-          doc.text_in :write => boleto.especie_documento,          :x => "7.8 cm",  :y => "10.4 cm", :tag => :negrito  
-          doc.text_in :write => boleto.aceite,                     :x => "10.2 cm", :y => "10.4 cm", :tag => :negrito  
-          doc.text_in :write => boleto.data_processamento.to_s_br, :x => "11.32 cm",:y => "10.4 cm", :tag => :negrito   if boleto.data_processamento
-          doc.text_area "<negrito>#{boleto.nosso_numero_boleto}</negrito>",         :x => "13.68 cm" ,  :y => "10.4 cm", :text_align => :right, :width => "6.83 cm"
+          # Linha 3 - 1.35
+          doc.text_in :write => boleto.data_documento.to_s_br,     :x => "0.7 cm",  :y => "9.05 cm", :tag => :negrito   if boleto.data_documento
+          doc.text_in :write => boleto.numero_documento,           :x => "4 cm",    :y => "9.05 cm", :tag => :negrito  
+          doc.text_in :write => boleto.especie_documento,          :x => "7.8 cm",  :y => "9.05 cm", :tag => :negrito  
+          doc.text_in :write => boleto.aceite,                     :x => "10.2 cm", :y => "9.05 cm", :tag => :negrito  
+          doc.text_in :write => boleto.data_processamento.to_s_br, :x => "11.32 cm",:y => "9.05 cm", :tag => :negrito   if boleto.data_processamento
+          doc.text_area "<negrito>#{boleto.nosso_numero_boleto}</negrito>",         :x => "13.68 cm" ,  :y => "9.05 cm", :text_align => :right, :width => "6.83 cm"
           
           #Linha 4
-          doc.text_in :write => boleto.carteira,   :x => "4 cm",   :y => "9.58 cm", :tag => :negrito  
-          doc.text_in :write => boleto.especie,    :x => "6.1 cm", :y => "9.58 cm", :tag => :negrito  
+          doc.text_in :write => boleto.carteira,   :x => "4 cm",   :y => "8.23 cm", :tag => :negrito  
+          doc.text_in :write => boleto.especie,    :x => "6.1 cm", :y => "8.23 cm", :tag => :negrito  
           #doc.text_in :write => boleto.quantidade, :x => "8 cm",   :y => "9.58 cm", :tag => :negrito  
           #doc.text_area "<negrito>#{boleto.valor_documento.to_currency}</negrito>", :x => "13.68 cm", :y => "9.58 cm", :text_align => :right, :width => "6.83 cm"
           
-          doc.text_in :write => boleto.valor_documento.to_currency, :x => "11.32 cm" , :y => "9.58 cm", :tag => :negrito  
+          doc.text_in :write => boleto.valor_documento.to_currency, :x => "11.32 cm" , :y => "8.23 cm", :tag => :negrito  
 
-          doc.text_in :write => boleto.instrucao1, :x => "0.7 cm" , :y => "8.7 cm", :tag => :negrito  
-          doc.text_in :write => boleto.instrucao2, :x => "0.7 cm" , :y => "8.3 cm", :tag => :negrito  
-          doc.text_in :write => boleto.instrucao3, :x => "0.7 cm" , :y => "7.9 cm", :tag => :negrito  
-          doc.text_in :write => boleto.instrucao4, :x => "0.7 cm" , :y => "7.5 cm", :tag => :negrito  
-          doc.text_in :write => boleto.instrucao5, :x => "0.7 cm" , :y => "7.1 cm", :tag => :negrito  
-          doc.text_in :write => boleto.instrucao6, :x => "0.7 cm" , :y => "6.7 cm", :tag => :negrito  
-          doc.text_in :write => "#{boleto.sacado} - #{boleto.sacado_documento.formata_documento}", :x => "1.2 cm" , :y => "4.8 cm", :tag => :negrito   if boleto.sacado && boleto.sacado_documento
-          doc.text_in :write => "#{boleto.sacado_endereco}", :x => "1.2 cm" , :y => "4.4 cm", :tag => :negrito  
+          doc.text_in :write => boleto.instrucao1, :x => "0.7 cm" , :y => "7.35 cm", :tag => :negrito  
+          doc.text_in :write => boleto.instrucao2, :x => "0.7 cm" , :y => "6.95 cm", :tag => :negrito  
+          doc.text_in :write => boleto.instrucao3, :x => "0.7 cm" , :y => "6.55 cm", :tag => :negrito  
+          doc.text_in :write => boleto.instrucao4, :x => "0.7 cm" , :y => "5.95 cm", :tag => :negrito  
+          doc.text_in :write => boleto.instrucao5, :x => "0.7 cm" , :y => "5.75 cm", :tag => :negrito  
+          doc.text_in :write => boleto.instrucao6, :x => "0.7 cm" , :y => "5.35 cm", :tag => :negrito  
+          doc.text_in :write => "#{boleto.sacado} - #{boleto.sacado_documento.formata_documento}", :x => "1.2 cm" , :y => "3.45 cm", :tag => :negrito   if boleto.sacado && boleto.sacado_documento
+          doc.text_in :write => "#{boleto.sacado_endereco}", :x => "1.2 cm" , :y => "3.05 cm", :tag => :negrito  
           #FIM Segunda parte do BOLETO
         end
       end #Base
