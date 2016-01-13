@@ -111,7 +111,7 @@ module Brcobranca
           modelo_mondrian_rodape(doc, boleto, opts) 
 
           #Gerando codigo de barra com rghost_barcode
-          doc.barcode_interleaved2of5(boleto.codigo_barras, :width => '12.7 cm', :height => '1.6 cm', :x => '0.7 cm', :y => '1.8 cm' ) if boleto.codigo_barras
+          doc.barcode_interleaved2of5(boleto.codigo_barras, :width => '12.7 cm', :height => '1.6 cm', :x => '0.7 cm', :y => '0.5 cm' ) if boleto.codigo_barras
 
           # Gerando stream
           formato = (options.delete(:formato) || Brcobranca.configuration.formato)
@@ -258,19 +258,18 @@ module Brcobranca
           #Linha 4
           doc.text_in :write => boleto.carteira,   :x => "4 cm",   :y => "8.18 cm", :tag => :negrito  
           doc.text_in :write => boleto.especie,    :x => "6.1 cm", :y => "8.18 cm", :tag => :negrito  
-          #doc.text_in :write => boleto.quantidade, :x => "8 cm",   :y => "9.58 cm", :tag => :negrito  
-          #doc.text_area "<negrito>#{boleto.valor_documento.to_currency}</negrito>", :x => "13.68 cm", :y => "9.58 cm", :text_align => :right, :width => "6.83 cm"
-          
-          doc.text_in :write => boleto.valor_documento.to_currency, :x => "11.32 cm" , :y => "8.18 cm", :tag => :negrito  
+          #doc.text_in :write => boleto.quantidade, :x => "8 cm",   :y => "8.18 cm", :tag => :negrito  
+          #doc.text_in :write => boleto.valor_documento.to_currency, :x => "11.32 cm" , :y => "8.18 cm", :tag => :negrito  
+          doc.text_area "<negrito>#{boleto.valor_documento.to_currency}</negrito>", :x => "13.68 cm", :y => "8.18 cm", :text_align => :right, :width => "6.83 cm"
 
-          doc.text_in :write => boleto.instrucao1, :x => "0.7 cm" , :y => "7.3 cm", :tag => :negrito  
-          doc.text_in :write => boleto.instrucao2, :x => "0.7 cm" , :y => "6.9 cm", :tag => :negrito  
-          doc.text_in :write => boleto.instrucao3, :x => "0.7 cm" , :y => "6.5 cm", :tag => :negrito  
-          doc.text_in :write => boleto.instrucao4, :x => "0.7 cm" , :y => "5.9 cm", :tag => :negrito  
-          doc.text_in :write => boleto.instrucao5, :x => "0.7 cm" , :y => "5.7 cm", :tag => :negrito  
-          doc.text_in :write => boleto.instrucao6, :x => "0.7 cm" , :y => "5.3 cm", :tag => :negrito  
-          doc.text_in :write => "#{boleto.sacado} - #{boleto.sacado_documento.formata_documento}", :x => "1.2 cm" , :y => "3.4 cm", :tag => :negrito   if boleto.sacado && boleto.sacado_documento
-          doc.text_in :write => "#{boleto.sacado_endereco}", :x => "1.2 cm" , :y => "3.0 cm", :tag => :negrito  
+          doc.text_in :write => boleto.instrucao1, :x => "0.7 cm" , :y => "7 cm", :tag => :negrito  
+          doc.text_in :write => boleto.instrucao2, :x => "0.7 cm" , :y => "6.6 cm", :tag => :negrito  
+          doc.text_in :write => boleto.instrucao3, :x => "0.7 cm" , :y => "6.2 cm", :tag => :negrito  
+          doc.text_in :write => boleto.instrucao4, :x => "0.7 cm" , :y => "5.6 cm", :tag => :negrito  
+          doc.text_in :write => boleto.instrucao5, :x => "0.7 cm" , :y => "5.4 cm", :tag => :negrito  
+          doc.text_in :write => boleto.instrucao6, :x => "0.7 cm" , :y => "5 cm", :tag => :negrito  
+          doc.text_in :write => "#{boleto.sacado} - #{boleto.sacado_documento.formata_documento}", :x => "1.2 cm" , :y => "3.1 cm", :tag => :negrito   if boleto.sacado && boleto.sacado_documento
+          doc.text_in :write => "#{boleto.sacado_endereco}", :x => "1.2 cm" , :y => "2.7 cm", :tag => :negrito  
           #FIM Segunda parte do BOLETO
         end
       end #Base
