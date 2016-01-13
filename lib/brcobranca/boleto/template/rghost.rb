@@ -235,17 +235,19 @@ module Brcobranca
           doc.text_in :write => boleto.codigo_barras.linha_digitavel, :x => "7.5 cm" , :y =>  "11.86 cm", :tag => :grande
 
           # Linha 1
-          doc.text_in :write => boleto.local_pagamento,            :x => "0.7 cm",  :y => "10.96 cm", :tag => :negrito  
+          
+          doc.text_in :write => "Pagável preferencialmente na Rede Bradesco ou Bradesco Expresso", :x => "0.7 cm",  :y => "10.96 cm", :tag => :negrito  
+          #doc.text_in :write => boleto.local_pagamento,            :x => "0.7 cm",  :y => "10.96 cm", :tag => :negrito  
           if boleto.data_vencimento
             doc.text_area "<negrito>#{boleto.data_vencimento.to_s_br}</negrito>",     :x => "13.68 cm", :y => "10.96 cm", :text_align => :right, :width => "6.83 cm"     
           end
 
           # Linha 2
-          doc.text_in :write => "#{boleto.cedente} - #{boleto.documento_cedente.formata_documento}, #{boleto.endereco_cedente}",  :x => "0.7 cm",  :y => "10.16 cm", :tag => :negrito  
+          doc.text_in :write => "#{boleto.cedente} - #{boleto.documento_cedente.formata_documento}, #{boleto.endereco_cedente}",  :x => "0.7 cm",  :y => "10.16 cm", , :width => "17 cm", :tag => :negrito  
           doc.text_area "<negrito>#{boleto.agencia_conta_boleto}</negrito>",        :x => "13.68 cm", :y => "10.16 cm", :text_align => :right, :width => "6.83 cm"
           
           # Linha 3
-          doc.text_in :write => boleto.data_documento.to_s_br,     :x => "0.7 cm",  :y => "10.4 cm", :tag => :negrito   if boleto.data_documento
+          doc.text_in :write => boleto.data_documento.to_s_br,     :x => "0.7 cm",  :y => "9 cm", :tag => :negrito   if boleto.data_documento
           doc.text_in :write => boleto.numero_documento,           :x => "4 cm",    :y => "10.4 cm", :tag => :negrito  
           doc.text_in :write => boleto.especie_documento,          :x => "7.8 cm",  :y => "10.4 cm", :tag => :negrito  
           doc.text_in :write => boleto.aceite,                     :x => "10.2 cm", :y => "10.4 cm", :tag => :negrito  
@@ -255,8 +257,8 @@ module Brcobranca
           #Linha 4
           doc.text_in :write => boleto.carteira,   :x => "4 cm",   :y => "9.58 cm", :tag => :negrito  
           doc.text_in :write => boleto.especie,    :x => "6.1 cm", :y => "9.58 cm", :tag => :negrito  
-          doc.text_in :write => boleto.quantidade, :x => "8 cm",   :y => "9.58 cm", :tag => :negrito  
-          doc.text_area "<negrito>#{boleto.valor_documento.to_currency}</negrito>", :x => "13.68 cm", :y => "9.58 cm", :text_align => :right, :width => "6.83 cm"
+          #doc.text_in :write => boleto.quantidade, :x => "8 cm",   :y => "9.58 cm", :tag => :negrito  
+          #doc.text_area "<negrito>#{boleto.valor_documento.to_currency}</negrito>", :x => "13.68 cm", :y => "9.58 cm", :text_align => :right, :width => "6.83 cm"
           
           doc.text_in :write => boleto.valor_documento.to_currency, :x => "11.32 cm" , :y => "9.58 cm", :tag => :negrito  
 
