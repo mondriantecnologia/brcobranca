@@ -214,14 +214,14 @@ module Brcobranca
           doc.text_in :write => boleto.nosso_numero_boleto,     :x => "18.1 cm",  :y => "19.42 cm", :tag => :negrito  
 
           # Linha 2
-          # - 1,06
-          doc.text_in :write => boleto.numero_documento,                            :x => "0.7 cm",   :y => "17.17 cm", :tag => :negrito  
-          doc.text_in :write => "#{boleto.documento_cedente.formata_documento}",    :x => "8.39 cm",  :y => "17.17 cm", :tag => :negrito  
-          doc.text_in :write => boleto.data_vencimento.to_s_br,                     :x => "12.15 cm", :y => "17.17 cm", :tag => :negrito  
-          doc.text_area "<negrito>#{boleto.valor_documento.to_currency}</negrito>", :x => "13.68 cm", :y => "17.17 cm", :text_align => :right, :width => "6.83 cm"
+          # - 1,04
+          doc.text_in :write => boleto.numero_documento,                            :x => "0.7 cm",   :y => "17.19 cm", :tag => :negrito  
+          doc.text_in :write => "#{boleto.documento_cedente.formata_documento}",    :x => "8.39 cm",  :y => "17.19 cm", :tag => :negrito  
+          doc.text_in :write => boleto.data_vencimento.to_s_br,                     :x => "12.15 cm", :y => "17.19 cm", :tag => :negrito  
+          doc.text_area "<negrito>#{boleto.valor_documento.to_currency}</negrito>", :x => "13.68 cm", :y => "17.19 cm", :text_align => :right, :width => "6.83 cm"
           
           #doc.text_in :write => "", :x => "1.4 cm" , :y => "16.9 cm", :tag => :negrito  
-          doc.text_in :write => "#{boleto.sacado}, #{boleto.sacado_documento.formata_documento} - #{boleto.sacado_endereco}", :x => "1 cm" , :y => "15.56 cm", :tag => :negrito  
+          doc.text_in :write => "#{boleto.sacado}, #{boleto.sacado_documento.formata_documento} - #{boleto.sacado_endereco}", :x => "1 cm" , :y => "15.58 cm", :tag => :negrito  
           #FIM Primeira parte do BOLETO
         end
 
@@ -229,19 +229,20 @@ module Brcobranca
         def modelo_mondrian_rodape(doc, boleto, opts = {:logo => 80})
           #INICIO Segunda parte do BOLETO BB
           # LOGOTIPO do BANCO
-          doc.image(boleto.logotipo, :x => "0.5 cm", :y => "12.9 cm", :zoom => opts[:logo])
-          doc.text_in :write => "#{boleto.banco}-#{boleto.banco_dv}", :x => "5.14 cm" , :y => "12.94 cm", :tag => :gigante
-          doc.text_in :write => boleto.codigo_barras.linha_digitavel, :x => "7.5 cm" , :y =>  "12.94 cm", :tag => :grande
+          # - 1,04
+          doc.image(boleto.logotipo, :x => "0.5 cm", :y => "11.86 cm", :zoom => opts[:logo])
+          doc.text_in :write => "#{boleto.banco}-#{boleto.banco_dv}", :x => "5.14 cm" , :y => "11.86 cm", :tag => :gigante
+          doc.text_in :write => boleto.codigo_barras.linha_digitavel, :x => "7.5 cm" , :y =>  "11.86 cm", :tag => :grande
 
           # Linha 1
-          doc.text_in :write => boleto.local_pagamento,            :x => "0.7 cm",  :y => "12 cm", :tag => :negrito  
+          doc.text_in :write => boleto.local_pagamento,            :x => "0.7 cm",  :y => "10.96 cm", :tag => :negrito  
           if boleto.data_vencimento
-            doc.text_area "<negrito>#{boleto.data_vencimento.to_s_br}</negrito>",     :x => "13.68 cm", :y => "12 cm", :text_align => :right, :width => "6.83 cm"     
+            doc.text_area "<negrito>#{boleto.data_vencimento.to_s_br}</negrito>",     :x => "13.68 cm", :y => "10.96 cm", :text_align => :right, :width => "6.83 cm"     
           end
 
           # Linha 2
-          doc.text_in :write => "#{boleto.cedente} - #{boleto.documento_cedente.formata_documento}, #{boleto.endereco_cedente}",  :x => "0.7 cm",  :y => "11.2 cm", :tag => :negrito  
-          doc.text_area "<negrito>#{boleto.agencia_conta_boleto}</negrito>",        :x => "13.68 cm", :y => "11.2 cm", :text_align => :right, :width => "6.83 cm"
+          doc.text_in :write => "#{boleto.cedente} - #{boleto.documento_cedente.formata_documento}, #{boleto.endereco_cedente}",  :x => "0.7 cm",  :y => "10.16 cm", :tag => :negrito  
+          doc.text_area "<negrito>#{boleto.agencia_conta_boleto}</negrito>",        :x => "13.68 cm", :y => "10.16 cm", :text_align => :right, :width => "6.83 cm"
           
           # Linha 3
           doc.text_in :write => boleto.data_documento.to_s_br,     :x => "0.7 cm",  :y => "10.4 cm", :tag => :negrito   if boleto.data_documento
