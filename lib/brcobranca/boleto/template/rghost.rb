@@ -214,13 +214,14 @@ module Brcobranca
           doc.text_in :write => boleto.nosso_numero_boleto,     :x => "18.1 cm",  :y => "19.42 cm", :tag => :negrito  
 
           # Linha 2
-          doc.text_in :write => boleto.numero_documento,                            :x => "0.7 cm",   :y => "17.13 cm", :tag => :negrito  
-          doc.text_in :write => "#{boleto.documento_cedente.formata_documento}",    :x => "8.39 cm",  :y => "18.23 cm", :tag => :negrito  
-          doc.text_in :write => boleto.data_vencimento.to_s_br,                     :x => "12.15 cm", :y => "18.23 cm", :tag => :negrito  
-          doc.text_area "<negrito>#{boleto.valor_documento.to_currency}</negrito>", :x => "13.68 cm", :y => "18.23 cm", :text_align => :right, :width => "6.83 cm"
-
+          # - 1,06
+          doc.text_in :write => boleto.numero_documento,                            :x => "0.7 cm",   :y => "17.17 cm", :tag => :negrito  
+          doc.text_in :write => "#{boleto.documento_cedente.formata_documento}",    :x => "8.39 cm",  :y => "17.17 cm", :tag => :negrito  
+          doc.text_in :write => boleto.data_vencimento.to_s_br,                     :x => "12.15 cm", :y => "17.17 cm", :tag => :negrito  
+          doc.text_area "<negrito>#{boleto.valor_documento.to_currency}</negrito>", :x => "13.68 cm", :y => "17.17 cm", :text_align => :right, :width => "6.83 cm"
+          
           #doc.text_in :write => "", :x => "1.4 cm" , :y => "16.9 cm", :tag => :negrito  
-          doc.text_in :write => "#{boleto.sacado}, #{boleto.sacado_documento.formata_documento} - #{boleto.sacado_endereco}", :x => "1 cm" , :y => "16.62 cm", :tag => :negrito  
+          doc.text_in :write => "#{boleto.sacado}, #{boleto.sacado_documento.formata_documento} - #{boleto.sacado_endereco}", :x => "1 cm" , :y => "15.56 cm", :tag => :negrito  
           #FIM Primeira parte do BOLETO
         end
 
