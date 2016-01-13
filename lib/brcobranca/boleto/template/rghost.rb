@@ -207,7 +207,7 @@ module Brcobranca
           doc.text_in :write => "#{boleto.banco}-#{boleto.banco_dv}", :x => '5.14 cm', :y => "20.29 cm", :tag => :gigante
           doc.text_in :write => boleto.codigo_barras.linha_digitavel, :x => '7.5 cm',  :y => "20.25 cm", :tag => :grande
           # Linha 1
-          doc.text_area "<negrito>#{boleto.cedente} - #{boleto.documento_cedente.formata_documento}, #{boleto.endereco_cedente}</negrito>", :x => "0.7 cm",   :y => "19.42 cm", :width => "7.0 cm" #"7.5 cm"
+          doc.text_area "<negrito>#{boleto.cedente} - #{boleto.documento_cedente.formata_documento}, #{boleto.endereco_cedente}</negrito>", :x => "0.7 cm",   :y => "19.42 cm", :width => "7.5 cm" 
           doc.text_in :write => boleto.agencia_conta_boleto,    :x => "8.39 cm",  :y => "19.42 cm", :tag => :negrito  
           doc.text_in :write => boleto.especie,                 :x => "12.15 cm", :y => "19.42 cm", :tag => :negrito  
           #doc.text_in :write => boleto.quantidade,              :x => "14 cm",    :y => "19.42 cm", :tag => :negrito  
