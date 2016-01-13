@@ -243,7 +243,7 @@ module Brcobranca
           end
 
           # Linha 2
-          doc.text_in :write => "#{boleto.cedente} - #{boleto.documento_cedente.formata_documento}, #{boleto.endereco_cedente}",  :x => "0.7 cm",  :y => "10.16 cm", , :width => "17 cm", :tag => :negrito  
+          doc.text_in :write => "#{boleto.cedente} - #{boleto.documento_cedente.formata_documento}, #{boleto.endereco_cedente}",  :x => "0.7 cm",  :y => "10.16 cm", :width => "17 cm", :tag => :negrito  
           doc.text_area "<negrito>#{boleto.agencia_conta_boleto}</negrito>",        :x => "13.68 cm", :y => "10.16 cm", :text_align => :right, :width => "6.83 cm"
           
           # Linha 3
