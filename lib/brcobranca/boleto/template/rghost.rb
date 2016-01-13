@@ -83,7 +83,7 @@ module Brcobranca
           modelo_generico_rodape(doc, boleto)
 
           #Gerando codigo de barra com rghost_barcode
-          doc.barcode_interleaved2of5(boleto.codigo_barras, :width => '10.7 cm', :height => '1.2 cm', :x => '0.7 cm', :y => '5.8 cm' ) if boleto.codigo_barras
+          doc.barcode_interleaved2of5(boleto.codigo_barras, :width => '10.7 cm', :height => '1.2 cm', :x => '0.7 cm', :y => '2.8 cm' ) if boleto.codigo_barras
 
           # Gerando stream
           formato = (options.delete(:formato) || Brcobranca.configuration.formato)
@@ -244,7 +244,7 @@ module Brcobranca
 
           # Linha 2
           doc.text_in :write => "#{boleto.cedente} - #{boleto.documento_cedente.formata_documento}",  :x => "0.7 cm",  :y => "10.16 cm", :width => "17 cm", :tag => :negrito  
-          doc.text_in :write => boleto.endereco_cedente,  :x => "0.7 cm",  :y => "9.0 cm", :width => "17 cm", :tag => :negrito  
+          doc.text_in :write => boleto.endereco_cedente,  :x => "0.7 cm",  :y => "9.7 cm", :width => "17 cm", :tag => :negrito  
           doc.text_area "<negrito>#{boleto.agencia_conta_boleto}</negrito>",        :x => "13.68 cm", :y => "10.16 cm", :text_align => :right, :width => "6.83 cm"
           
           # Linha 3 - 1.35
