@@ -43,6 +43,7 @@ module Brcobranca
       attr_accessor :mes_base
       attr_accessor :ano_base
       attr_accessor :numero_documento
+      attr_accessor :numero_documento_crdd
       attr_accessor :dia_pagamento
       attr_accessor :mes_pagamento
       attr_accessor :ano_pagamento
