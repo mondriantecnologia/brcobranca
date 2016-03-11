@@ -48,6 +48,7 @@ module Brcobranca
       attr_accessor :mes_pagamento
       attr_accessor :ano_pagamento
       attr_accessor :valor
+      attr_accessor :valor_crdd
     end
   end
 end
