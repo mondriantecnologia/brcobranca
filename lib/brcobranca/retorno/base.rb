@@ -49,7 +49,7 @@ module Brcobranca
       attr_accessor :ano_pagamento
       attr_accessor :valor
       attr_accessor :valor_crdd
-      attr_accessor :identificador_ocorrencia
+      attr_accessor :id_ocorrencia
     end
   end
 end
