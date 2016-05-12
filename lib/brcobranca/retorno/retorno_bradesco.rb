@@ -28,7 +28,7 @@ module Brcobranca
 
         fixed_width_layout do |parse|
           parse.field :numero_documento, 70..80
-          parse.field :numero_documento_crdd, 116..125
+          parse.field :numero_documento_crdd, 70..81
           parse.field :dia_pagamento, 110..111
           parse.field :mes_pagamento, 112..113
           parse.field :ano_pagamento, 114..116
