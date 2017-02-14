@@ -236,8 +236,11 @@ module Brcobranca
 
           # Linha 1
           
-          doc.text_in :write => "Pagável preferencialmente na Rede Bradesco ou Bradesco Expresso", :x => "0.7 cm",  :y => "10.96 cm", :tag => :negrito  
-          #doc.text_in :write => boleto.local_pagamento,            :x => "0.7 cm",  :y => "10.96 cm", :tag => :negrito  
+          if boleto.local_pagamento.present?
+            doc.text_in :write => boleto.local_pagamento,            :x => "0.7 cm",  :y => "10.98 cm", :tag => :negrito  
+          else 
+            doc.text_in :write => "Pagável preferencialmente na Rede Bradesco ou Bradesco Expresso", :x => "0.7 cm",  :y => "10.98 cm", :tag => :negrito  
+          end
           if boleto.data_vencimento
             doc.text_area "<negrito>#{boleto.data_vencimento.to_s_br}</negrito>",     :x => "13.68 cm", :y => "10.96 cm", :text_align => :right, :width => "6.83 cm"     
           end
