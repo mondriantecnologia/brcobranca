@@ -297,7 +297,7 @@ module Brcobranca
           doc.moveto x: '7.5 cm', y: '23.9 cm'
           doc.show boleto.codigo_barras.linha_digitavel, tag: :grande
           doc.moveto x: '0.7 cm', y: '23.05 cm'
-          doc.text_area "#{boleto.cedente}", :x => "1.5 cm",   :y => "23.50 cm", :width => "8 cm" 
+          doc.text_area "#{boleto.cedente}", :x => "1.5 cm",   :y => "23.45 cm", :width => "8 cm" 
           doc.moveto x: '10 cm', y: '23.05 cm'
           doc.show boleto.agencia_conta_boleto
           doc.moveto x: '14.2 cm', y: '23.05 cm'
