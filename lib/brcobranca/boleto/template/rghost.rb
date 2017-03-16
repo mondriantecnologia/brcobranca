@@ -286,17 +286,18 @@ module Brcobranca
         end
 
         # Monta o cabeçalho do layout do boleto
-        def modelo_generico_cabecalho(doc, boleto)
+        def modelo_generico_cabecalho(doc, boleto, opts = {:logo => 80})
           # INICIO Primeira parte do BOLETO
           # LOGOTIPO do BANCO
-          doc.image boleto.logotipo, x: '0.36 cm', y: '23.87 cm'
+          #doc.image boleto.logotipo, x: '0.36 cm', y: '23.87 cm'
+          doc.image(boleto.logotipo, :x => '0.36 cm', :y => "23.87 cm", :zoom => opts[:logo])
           # Dados
           doc.moveto x: '5.2 cm', y: '23.9 cm'
           doc.show "#{boleto.banco}-#{boleto.banco_dv}", tag: :grande
           doc.moveto x: '7.5 cm', y: '23.9 cm'
           doc.show boleto.codigo_barras.linha_digitavel, tag: :grande
           doc.moveto x: '0.7 cm', y: '23.0 cm'
-          doc.show boleto.cedente
+          doc.text_area "#{boleto.cedente}", :x => "0.7 cm",   :y => "19.42 cm", :width => "10 cm" 
           doc.moveto x: '11 cm', y: '23 cm'
           doc.show boleto.agencia_conta_boleto
           doc.moveto x: '14.2 cm', y: '23 cm'
@@ -327,10 +328,11 @@ module Brcobranca
         end
 
         # Monta o corpo e rodapé do layout do boleto
-        def modelo_generico_rodape(doc, boleto)
+        def modelo_generico_rodape(doc, boleto, opts = {:logo => 80})
           # INICIO Segunda parte do BOLETO BB
           # LOGOTIPO do BANCO
-          doc.image boleto.logotipo, x: '0.36 cm', y: '16.83 cm'
+          #doc.image boleto.logotipo, x: '0.36 cm', y: '16.83 cm'
+          doc.image(boleto.logotipo, :x => '0.36 cm', :y => "16.83 cm", :zoom => opts[:logo])
           doc.moveto x: '5.2 cm', y: '16.9 cm'
           doc.show "#{boleto.banco}-#{boleto.banco_dv}", tag: :grande
           doc.moveto x: '7.5 cm', y: '16.9 cm'
