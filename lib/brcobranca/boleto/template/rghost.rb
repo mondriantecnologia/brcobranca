@@ -340,13 +340,13 @@ module Brcobranca
           doc.moveto x: '20.3 cm', y: '16 cm'
           doc.show boleto.data_vencimento.to_s_br, align: :show_right if boleto.data_vencimento
           doc.moveto x: '0.7 cm', y: '15.2 cm'
-          if boleto.cedente_endereco
-            doc.show boleto.cedente_endereco
-            doc.moveto x: '1.9 cm', y: '15.5 cm'
+          #if boleto.cedente_endereco
+          #  doc.show boleto.cedente_endereco
+          #  doc.moveto x: '1.9 cm', y: '15.5 cm'
+          #  doc.show boleto.cedente
+          #else
             doc.show boleto.cedente
-          else
-            doc.show boleto.cedente
-          end
+          #end
           doc.moveto x: '20.3 cm', y: '15.2 cm'
           doc.show boleto.agencia_conta_boleto, align: :show_right
           doc.moveto x: '0.7 cm', y: '14.4 cm'
