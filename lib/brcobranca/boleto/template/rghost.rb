@@ -31,11 +31,11 @@ module Brcobranca
         # @see http://wiki.github.com/shairontoledo/rghost/supported-devices-drivers-and-formats Veja mais formatos na documentação do rghost.
         # @see Rghost#modelo_generico Recebe os mesmos parâmetros do Rghost#modelo_generico.
         def to(formato, options={:generico => true})
-          #if options[:generico] == true
-             #modelo_generico(self, options.merge!({:formato => formato}))
-          #else
+          if options[:generico] == true
+             modelo_generico(self, options.merge!({:formato => formato}))
+          else
              modelo_mondrian(self, options.merge!({:formato => formato}))
-          #end
+          end
         end
 
         # Gera o boleto em usando o formato desejado [:pdf, :jpg, :tif, :png, :ps, :laserjet, ... etc]
