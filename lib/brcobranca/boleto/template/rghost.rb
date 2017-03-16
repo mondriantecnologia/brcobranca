@@ -392,10 +392,10 @@ module Brcobranca
           doc.moveto x: '1.2 cm', y: '8.4 cm'
           doc.show boleto.sacado_endereco.to_s
 
-          if boleto.avalista && boleto.avalista_documento
-            doc.moveto x: '2.4 cm', y: '7.47 cm'
-            doc.show "#{boleto.avalista} - #{boleto.avalista_documento}"
-          end
+          #if boleto.avalista && boleto.avalista_documento
+          #  doc.moveto x: '2.4 cm', y: '7.47 cm'
+          #  doc.show "#{boleto.avalista} - #{boleto.avalista_documento}"
+          #end
           # FIM Segunda parte do BOLETO
         end
         
