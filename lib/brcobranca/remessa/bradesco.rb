@@ -162,9 +162,15 @@ module Brcobranca
           linha << "".rjust(13,"0") # 180 a 192 Valor do Desconto
           linha << "".rjust(13,"0") # 193 a 205 Valor do IOF
           linha << "".rjust(13,"0") # 206 a 218 Valor do Abatimento a ser concedido ou cancelado
-          linha << "02".rjust(2,"0")  # 219 a 220 identificação do tipo de incrição do sacado
-          linha << boleto.fatura.cartorio.cnpj.gsub('.','').gsub('-','').gsub('/','').rjust(14,"0") # 221 a 234 incriçao do sacado
-          linha << retira_acentos(boleto.fatura.cartorio.oficio)[0,40].ljust(40," ") # 235 a 274 nome do sacado
+          if boleto.class == Boleto
+            linha << (boleto.financiado.cpf.size == 11 ? "01" : "02")  # 219 a 220 identificação do tipo de incrição do sacado
+            linha << boleto.financiado.cpf.gsub('.','').gsub('-','').gsub('/','').rjust(14,"0") # 221 a 234 incriçao do sacado
+            linha << retira_acentos(boleto.financiado.nome)[0,40].ljust(40," ") # 235 a 274 nome do sacado
+          elsif boleto.class == BoletoFinanceira
+            linha << "02".rjust(2,"0")  # 219 a 220 identificação do tipo de incrição do sacado
+            linha << boleto.fatura.cartorio.cnpj.gsub('.','').gsub('-','').gsub('/','').rjust(14,"0") # 221 a 234 incriçao do sacado
+            linha << retira_acentos(boleto.fatura.cartorio.oficio)[0,40].ljust(40," ") # 235 a 274 nome do sacado
+          end         
           linha << "".ljust(40," ") # 275 a 314 end completo
           linha << "".ljust(12," ") # 315 a 326 1a menssagem
           linha << "".rjust(5,"0")  # 327 a 331 CEP
