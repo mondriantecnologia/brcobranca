@@ -1,3 +1,4 @@
+
 module Brcobranca
   module Remessa
     class Bradesco < Base
@@ -31,6 +32,12 @@ module Brcobranca
           numero_de_registros = self.corpo_arquivo_repasse
           rodape = self.rodape_arquivo_repasse(numero_de_registros)
           @arquivo.write(rodape)
+        elsif self.objeto.class == ArquivoFornecedor
+          primeira_linha = self.cabecalho_arquivo_repasse
+          @arquivo.write(primeira_linha)
+          numero_de_registros = self.corpo_arquivo_fornecedor
+          rodape = self.rodape_arquivo_repasse(numero_de_registros)
+          @arquivo.write(rodape)          
         end
         
         @arquivo.close
@@ -311,6 +318,78 @@ module Brcobranca
             linha << (item_repasse.id - 40000).to_s.rjust(5,'0')   #473 A 477 - Codigo de lancamento
             linha << ' ' # 478 A 478 reserva - fixo branco
             linha << item_repasse.cartorio.dado_cartorario.tipo_conta.to_s #479 A 479 - Tipo de conta do fornecedor - 1 = conta corrente, 2= conta poupanca
+            linha << self.parametros.conta.rjust(7,'0') #480 A 486 - Conta complementar - Fixo 0
+            linha << ''.ljust(8,' ') # 487 A 494 - fixo branco
+            linha << numero_de_registros.to_s.rjust(6,'0')  # 495 a 500 num sequencial do registro
+            linha << "\n"
+            @arquivo.write(linha)
+          end
+        end
+        return numero_de_registros
+      end
+
+     def corpo_arquivo_fornecedor
+        numero_de_registros = self.num_sequencia
+        self.objeto.pagamentos_fornecedores.each do |pagamento|
+          if pagamento.valor >= 0.01
+            fornecedor = pagamento.fornecedor
+            numero_de_registros += 1
+            informacoes_complementares = (fornecedor.cod_banco == '237' ? ''.ljust(40,' ') : "C000000010#{fornecedor.tipo_de_conta}".ljust(40,' ') )
+            vcpf = fornecedor.cpf_cnpj.gsub(/[^0-9]/,'')
+            if vcpf.size == 11
+              tipo_inscricao = 1
+              vcpf = vcpf[0,9] + '0000' + vcpf[9,2]
+            else
+              tipo_inscricao = 2
+            end   
+            linha = "1"
+            linha << tipo_inscricao.to_s # 002 A 002 - Tipo de inscricao do Fornecedor - 1- CPF, 2- CNPJ, 3-OUtros
+            linha << vcpf.rjust(15,'0') #003 A 017 - CPF/CNPJ fornecedor
+            linha << I18n.transliterate(fornecedor.razao_social)[0,30].gsub('º',' ').gsub('°',' ').upcase.ljust(30) #018 A 047 - Nome do fornecedor
+            linha << I18n.transliterate(fornecedor.logradouro)[0,40].gsub('º',' ').gsub('°',' ').upcase.ljust(40,' ') # 048 A 087 Endereco do fornecedor
+            linha << fornecedor.cep.gsub('.','').gsub('-','') #088 A 095 -  Cep do fornecedor
+            linha << fornecedor.cod_banco.rjust(3,'0') #096 A 098 - Codigo do banco do fornecedor
+            linha << fornecedor.agencia.rjust(5,'0') # 099 A 103 - Codigo da agencia do fornecedor
+            linha << fornecedor.digito_agencia.ljust(1,' ') # 104 A 104 - digito da agencia do fornecedor
+            linha << fornecedor.conta.rjust(13,'0') # 105 A 117 - conta ocrrente do fornecedor
+            linha << fornecedor.digito_conta.ljust(2,' ') #118 A 119 - digito da conta corrente do fornecedor
+            linha << pagamento.id.to_s.ljust(16,' ') #120 A 135 - Número do Pagamento.
+            linha << '000' #136 A 138 - Carteira - fixo 000
+            linha << ''.rjust(12,'0') #139 A 150 - Nosso numero - fixo 0
+            linha << ''.rjust(15,'0') #151 A 165 - Seu numero - fixo 0
+            linha << Date.today.strftime('%Y%m%d').rjust(8,'0') #166 A 173 # data de vencimento
+            linha << ''.rjust(8,'0') #174 A 181 # data de emissao - fixo 0
+            linha << ''.rjust(8,'0') #182 A 189 # data limite para desconto - fixo 0
+            linha << '0' #190 A 190 - Fixo 0
+            linha << '0'.rjust(4,'0') #191 A 194 - Fator de vencimento - fixo 0
+            linha << '0'.rjust(10,'0') #195 A 204 - Valor do Documento - fixo 0
+            linha << pagamento.valor.contabil.gsub('.','').gsub(',','').rjust(15,'0') # 205 A 219 # valor do pagamento
+            linha << '0'.rjust(15,'0') #220 A 234 - Valor do desconto - fixo 0
+            linha << '0'.rjust(15,'0') #235 A 249 - Valor do acrescimo - fixo 0 
+            linha << '05' #250 A 251 - Tipo de documento - 05 = OUTROS
+            linha << '0'.rjust(10,'0') #252 A 261 - Numero nota fiscal - fixo 0
+            linha << '  ' #262 A 263 - serie do documento - opicional 
+            linha << (fornecedor.cod_banco == '237' ? '05' : '03' ) #264 A 265 - modalidade de pagamento - 01 = transf, 03 = doc
+            linha << Date.today.strftime('%Y%m%d').rjust(8,"0") #266 A 273 # data para efetivacao do pagmento
+            linha << ''.ljust(3,' ') # 274 A 276 - Moeda - Fixo Branco
+            linha << '01' # 277 a 278 - Situação do Agendamento - Fixo 01
+            linha << ''.ljust(10,' ') #279 A 288 - Informacao de retorno - fixo branco
+            linha << '0' # 289 A 289 - Tipo de movimento - 0 = inclusao
+            linha << '25' # 290 A 291 - Codigo do movimento - 25 = autoriza agendamento
+            linha << ''.ljust(4,' ') # 292 A 295 - Horario para consulta de saldo - fixo branco
+            linha << ''.ljust(15,' ')# 296 A 310 - Saldo disponivel - fixo branco
+            linha << ''.ljust(15,' ')# 311 A 325 - Valor da taxa pre-funding - fixo branco  
+            linha << ''.ljust(6,' ') # 326 A 331 - fixo brancos
+            linha << ''.ljust(40,' ') # 332 A 371 - Sacador avalista  somente para titulos em cobranca - fixo brancos
+            linha << ' '#372 A 372 - Fixo Branco
+            linha << ' '#373 A 373 - Nivel da informacao do retorno - Fixo Branco
+            linha << informacoes_complementares #374 a 413 # informacoes complementares
+            linha << '00' #414 A 415 - codigo de area na empresa - opcional
+            linha << ''.ljust(35,' ') # 416 A 450 - Para uso da empresa - fixo branco
+            linha << ''.ljust(22,' ') # 451 A 472 - Fixo Brancos
+            linha << pagamento.id.to_s.rjust(5,'0')   #473 A 477 - Codigo de lancamento
+            linha << ' ' # 478 A 478 reserva - fixo branco
+            linha << fornecedor.tipo_de_conta.to_s #479 A 479 - Tipo de conta do fornecedor - 1 = conta corrente, 2= conta poupanca
             linha << self.parametros.conta.rjust(7,'0') #480 A 486 - Conta complementar - Fixo 0
             linha << ''.ljust(8,' ') # 487 A 494 - fixo branco
             linha << numero_de_registros.to_s.rjust(6,'0')  # 495 a 500 num sequencial do registro
