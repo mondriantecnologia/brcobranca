@@ -152,7 +152,7 @@ module Brcobranca
           linha << "2".rjust(1,"0")      # 66 a 66 campo de multa
           linha << "0200".rjust(4,"0")   # 67 a 70 percentual de multa a ser considerado
           linha << boleto.id.to_s.rjust(11,"0")         # 71 a 81 identificação do titulo "tem que ser gerado automatico"
-          linha << boleto.digito_verificador(self.parametros.carteira_financeira.to_s) # 82 a 82 digito de auto conferencia "tem que ser gerado automatico"
+          linha << digito_verificador(self.parametros.carteira_financeira, boleto.id) # 82a82 digito de auto conferencia "tem que ser gerado automatico"
           linha << "".rjust(10,"0") # 83 a 92 desconto bonificação
           linha << "2" # 93 a 93 condição para emissão da papeleta
           linha << "N" # 94 a 94 identificação se emite papeleta para debito
@@ -211,7 +211,7 @@ module Brcobranca
           linha << "0".rjust(1,"0")      # 66 a 66 campo de multa
           linha << "0000".rjust(4,"0")   # 67 a 70 percentual de multa a ser considerado
           linha << boleto.id.to_s.rjust(11,"0")         # 71 a 81 identificação do titulo "tem que ser gerado automatico"
-          linha << boleto.digito_verificador(self.parametros.carteira_boleto.to_s) # 82 a 82 digito de auto conferencia "tem que ser gerado automatico"
+          linha << digito_verificador(self.parametros.carteira_boleto, boleto.id) # 82 a 82 digito de auto conferencia "tem que ser gerado automatico"
           linha << "".rjust(10,"0") # 83 a 92 desconto bonificação
           linha << "2" # 93 a 93 condição para emissão da papeleta
           linha << "N" # 94 a 94 identificação se emite papeleta para debito
@@ -500,6 +500,37 @@ module Brcobranca
       def retira_acentos(texto) 
         retorno = texto.upcase.gsub('º','o').gsub('ª','a').gsub('Á','A').gsub('À','A').gsub('Ã','A').gsub('Â','A').gsub('É','E').gsub('È','E').gsub('Ê','E').gsub('Í','I').gsub('Ì','I').gsub('Î','I').gsub('Ó','O').gsub('Ò','O').gsub('Ô','O').gsub('Õ','O').gsub('Ú','U').gsub('Ù','U').gsub('Û','U').gsub('Ü','U').gsub('Ç','C').gsub(' ','o ')
       end
+
+      def digito_verificador(carteira, nosso_numero)
+        carteira     = carteira.to_s.rjust(2,'0')
+        nosso_numero = nosso_numero.to_s.rjust(11,'0')
+        base = carteira + nosso_numero
+        #inverte a posicao dos numeros
+        base.reverse!
+        base = base.split('')
+
+        #incia o calculo
+        fator = 1
+        soma = 0
+        for x in base
+         if fator < 7
+           fator += 1 
+         else
+           fator = 2
+         end
+         soma += (fator * x.to_f)
+        end
+        resto = (soma % 11)
+        if resto == 1 
+         dv = 'P'
+        elsif resto == 0
+         dv = '0'
+        else
+        dv = (11 - resto.to_i).to_s
+        end   
+        dv
+      end
+
 
     end
   end
