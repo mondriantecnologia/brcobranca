@@ -228,7 +228,7 @@ module Brcobranca
           end
           linha << boleto.id.to_s.ljust(10," ") # 111 a 120 num do documento "tem que ser gerado automatico"
           linha << boleto.data_venc.strftime('%d%m%y').rjust(6,"0")  # 121 a 126 data do vencimento do titulo
-          linha << boleto.valor.contabil.gsub('.','').gsub(',','').rjust(13,"0") # 127 a 139 valor do titulo
+          linha << boleto.val_boleto.contabil.gsub('.','').gsub(',','').rjust(13,"0") # 127 a 139 valor do titulo
           linha << "".rjust(3,"0")  # 140 a 142 banco encarregado da cobrança
           linha << "".rjust(5,"0")  # 143 a 147 agencia depositaria
           linha << "01" # 148 a 149 especie de titulo
