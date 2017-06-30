@@ -152,7 +152,7 @@ module Brcobranca
           linha << "2".rjust(1,"0")      # 66 a 66 campo de multa
           linha << "0200".rjust(4,"0")   # 67 a 70 percentual de multa a ser considerado
           linha << boleto.id.to_s.rjust(11,"0")         # 71 a 81 identificação do titulo "tem que ser gerado automatico"
-          linha << digito_verificador(self.parametros.carteira_financeira, boleto.id) # 82a82 digito de auto conferencia "tem que ser gerado automatico"
+          linha << self.digito_verificador(self.parametros.carteira_financeira, boleto.id) # 82a82 digito de auto conferencia "tem que ser gerado automatico"
           linha << "".rjust(10,"0") # 83 a 92 desconto bonificação
           linha << "2" # 93 a 93 condição para emissão da papeleta
           linha << "N" # 94 a 94 identificação se emite papeleta para debito
@@ -211,7 +211,7 @@ module Brcobranca
           linha << "0".rjust(1,"0")      # 66 a 66 campo de multa
           linha << "0000".rjust(4,"0")   # 67 a 70 percentual de multa a ser considerado
           linha << boleto.id.to_s.rjust(11,"0")         # 71 a 81 identificação do titulo "tem que ser gerado automatico"
-          linha << digito_verificador(self.parametros.carteira_boleto, boleto.id) # 82 a 82 digito de auto conferencia "tem que ser gerado automatico"
+          linha << self.digito_verificador(self.parametros.carteira_boleto, boleto.id) # 82 a 82 digito de auto conferencia "tem que ser gerado automatico"
           linha << "".rjust(10,"0") # 83 a 92 desconto bonificação
           linha << "2" # 93 a 93 condição para emissão da papeleta
           linha << "N" # 94 a 94 identificação se emite papeleta para debito
