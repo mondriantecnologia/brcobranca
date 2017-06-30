@@ -1,4 +1,3 @@
-
 module Brcobranca
   module Remessa
     class Bradesco < Base
@@ -15,9 +14,13 @@ module Brcobranca
         @arquivo = File.open(self.caminho_arquivo, "w")
         
         if self.objeto.class == ArquivoRemessa
-          primeira_linha = self.cabecalho_arquivo_remessa
+          primeira_linha = self.cabecalho_arquivo_remessa(self.objeto.tipo)
           @arquivo.write(primeira_linha)
-          numero_de_registros = self.corpo_arquivo_remessa
+          if self.objeto.tipo == "Boleto"
+            numero_de_registros = self.corpo_arquivo_remessa_boleto(self.baixa_manual)
+          else
+            numero_de_registros = self.corpo_arquivo_remessa_fatura
+          end
           rodape = self.rodape_arquivo_remessa(numero_de_registros)
           @arquivo.write(rodape)
         elsif self.objeto.class == PagamentoEstorno
@@ -46,12 +49,16 @@ module Brcobranca
         system(comando)
       end
       
-      def cabecalho_arquivo_remessa
+      def cabecalho_arquivo_remessa(tipo = "Fatura")
         primeira_linha = "01" # 1 a 2 identificaçao do registro e identificaçao do arquivo remessa
         primeira_linha << "REMESSA" # 3 a 9 literal
         primeira_linha << "01" # 10 a 11 Código de Serviço
         primeira_linha << "COBRANCA".ljust(15," ") # 12 a 26 
-        primeira_linha << self.parametros.cod_cliente.rjust(20,"0") # 27 a 43 codigo da empresa
+        if tipo == "Boleto"
+          primeira_linha << self.parametros.cod_cliente_boleto.rjust(20,"0") # 27 a 43 codigo da empresa
+        else
+          primeira_linha << self.parametros.cod_cliente.rjust(20,"0") # 27 a 43 codigo da empresa
+        end
         primeira_linha << I18n.transliterate(self.parametros.cedente)[0,30].ljust(30," ").upcase # 44 a 76 nome da empresa
         primeira_linha << "237".ljust(3," ")  # 77 a 79 numero do bradesco
         primeira_linha << "BRADESCO".ljust(15," ") # 80 a 94 bradesco
@@ -125,7 +132,7 @@ module Brcobranca
         return primeira_linha
       end
       
-      def corpo_arquivo_remessa
+      def corpo_arquivo_remessa_fatura
         numero_de_registros = self.num_sequencia
         self.boletos.each do |boleto|
           numero_de_registros += 1
@@ -169,15 +176,74 @@ module Brcobranca
           linha << "".rjust(13,"0") # 180 a 192 Valor do Desconto
           linha << "".rjust(13,"0") # 193 a 205 Valor do IOF
           linha << "".rjust(13,"0") # 206 a 218 Valor do Abatimento a ser concedido ou cancelado
-          if boleto.class == Boleto
-            linha << (boleto.financiado.cpf.size == 11 ? "01" : "02")  # 219 a 220 identificação do tipo de incrição do sacado
-            linha << boleto.financiado.cpf.gsub('.','').gsub('-','').gsub('/','').rjust(14,"0") # 221 a 234 incriçao do sacado
-            linha << retira_acentos(boleto.financiado.nome)[0,40].ljust(40," ") # 235 a 274 nome do sacado
-          elsif boleto.class == BoletoFinanceira
-            linha << "02".rjust(2,"0")  # 219 a 220 identificação do tipo de incrição do sacado
-            linha << boleto.fatura.cartorio.cnpj.gsub('.','').gsub('-','').gsub('/','').rjust(14,"0") # 221 a 234 incriçao do sacado
-            linha << retira_acentos(boleto.fatura.cartorio.oficio)[0,40].ljust(40," ") # 235 a 274 nome do sacado
-          end         
+          linha << "02".rjust(2,"0")  # 219 a 220 identificação do tipo de incrição do sacado
+          linha << boleto.fatura.cartorio.cnpj.gsub(/[^0-9]/,'').rjust(14,"0") # 221 a 234 incriçao do sacado
+          linha << I18n.transliterate(boleto.fatura.cartorio.oficio)[0,40].gsub('º',' ').gsub('°',' ').upcase.ljust(40) #235 a 274 nome do sacado
+          linha << "".ljust(40," ") # 275 a 314 end completo
+          linha << "".ljust(12," ") # 315 a 326 1a menssagem
+          linha << "".rjust(5,"0")  # 327 a 331 CEP
+          linha << "".rjust(3,"0")  # 332 a 334 sufixo do CEP
+          linha << "".ljust(60," ") # 335 a 394 sacador ou 2a menssagem
+          linha << numero_de_registros.to_s.rjust(6,"0")  # 395 a 400 num sequencial do registro
+          linha << "\n"
+          @arquivo.write(linha)
+        end
+        return numero_de_registros
+      end
+
+      def corpo_arquivo_remessa_boleto(baixa_manual = false)
+        numero_de_registros = self.num_sequencia
+        self.boletos.each do |boleto|
+          numero_de_registros += 1
+          linha = "1"
+          linha << "00000"   # 2 a 6 agencia debito 
+          linha << " "       # 7 a 7 digito agencia debito
+          linha << "00000"   # 8 a 12 razão conta corrente
+          linha << "0000000" # 13 a 19 conta corrente
+          linha << " "       # 20 a 20 digito
+          linha << "0"       # 21 a 21 zero
+          linha << self.parametros.carteira_boleto.to_s.rjust(3,"0") # 22 a 24 codigo da carteira
+          linha << self.parametros.agencia.rjust(5,"0")  # 25 a 29 agencia cedente sem digito
+          linha << self.parametros.conta.rjust(7,"0")    # 30 a 36 conta corrente
+          linha << self.parametros.conta_dv.to_s # 37 a 37 digito conta
+          linha << "".rjust(25," ")      # 38 a 62 uso da empresa
+          linha << "".rjust(3,"0")       # 63 a 65 codigo banco a ser debitado
+          linha << "0".rjust(1,"0")      # 66 a 66 campo de multa
+          linha << "0000".rjust(4,"0")   # 67 a 70 percentual de multa a ser considerado
+          linha << boleto.id.to_s.rjust(11,"0")         # 71 a 81 identificação do titulo "tem que ser gerado automatico"
+          linha << boleto.digito_verificador(self.parametros.carteira_boleto.to_s) # 82 a 82 digito de auto conferencia "tem que ser gerado automatico"
+          linha << "".rjust(10,"0") # 83 a 92 desconto bonificação
+          linha << "2" # 93 a 93 condição para emissão da papeleta
+          linha << "N" # 94 a 94 identificação se emite papeleta para debito
+          linha << "".ljust(10," ") # 95 a 104 identificação da operação do banco
+          linha << " " # 105 a 105 indicador rateio
+          linha << " " # 106 a 106 endereço para aviso
+          linha << " ".ljust(2," ") # 107 a 108 branco
+          if boleto.reenviar_banco
+            linha << "06" # 109 a 110 identificacao da ocorrencia
+          elsif baixa_manual
+            linha << "02" # 109 a 110 identificacao da ocorrencia
+          else          
+            linha << "01" # 109 a 110 identificacao da ocorrencia
+          end
+          linha << boleto.id.to_s.ljust(10," ") # 111 a 120 num do documento "tem que ser gerado automatico"
+          linha << boleto.vencimento.strftime('%d%m%y').rjust(6,"0")  # 121 a 126 data do vencimento do titulo
+          linha << boleto.valor.contabil.gsub('.','').gsub(',','').rjust(13,"0") # 127 a 139 valor do titulo
+          linha << "".rjust(3,"0")  # 140 a 142 banco encarregado da cobrança
+          linha << "".rjust(5,"0")  # 143 a 147 agencia depositaria
+          linha << "01" # 148 a 149 especie de titulo
+          linha << "N"  # 150 a 150 identificação
+          linha << boleto.created_at.strftime('%d%m%y').rjust(6,"0")  # 151 a 156 data da emissão do titulo "falta preencher"
+          linha << "".rjust(2,"0")  # 157 a 158 1a instrução
+          linha << "".rjust(2,"0")  # 159 a 160 2a instrução
+          linha << "".rjust(13,"0") # 161 a 173 valor da cobrança por dia atraso "verificar o pecentual de cobrança"
+          linha << "".rjust(6,"0")  # 174 a 179 Data Limite P/Concessão de Desconto
+          linha << "".rjust(13,"0") # 180 a 192 Valor do Desconto
+          linha << "".rjust(13,"0") # 193 a 205 Valor do IOF
+          linha << "".rjust(13,"0") # 206 a 218 Valor do Abatimento a ser concedido ou cancelado
+          linha << boleto.cpf.gsub(/[^0-9]/,'').size == 11 ? "01" : "02"  # 219a220 identificação do tipo de incrição do sacado
+          linha << boleto.cpf.gsub(/[^0-9]/,'').rjust(14,"0") # 221 a 234 incriçao do sacado
+          linha << I18n.transliterate(boleto.financiado.nome)[0,40].gsub('º',' ').gsub('°',' ').upcase.ljust(40) #235 a 274 nome do sacado
           linha << "".ljust(40," ") # 275 a 314 end completo
           linha << "".ljust(12," ") # 315 a 326 1a menssagem
           linha << "".rjust(5,"0")  # 327 a 331 CEP
