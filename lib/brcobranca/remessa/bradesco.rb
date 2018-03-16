@@ -271,8 +271,10 @@ module Brcobranca
             linha << ressarcimento.tipo_inscricao.to_s # 002 A 002 - Tipo de inscricao do Fornecedor - 1- CPF, 2- CNPJ, 3-OUtros
             linha << vcpf.rjust(15,'0') #003 A 017 - CPF/CNPJ fornecedor
             linha << I18n.transliterate(ressarcimento.favorecido)[0,30].gsub('º',' ').gsub('°',' ').upcase.ljust(30) #018 A 047 - Nome do fornecedor
-            linha << I18n.transliterate(ressarcimento.endereco)[0,40].gsub('º',' ').gsub('°',' ').upcase.ljust(40,' ') # 048 A 087 Endereco do fornecedor
-            linha << ressarcimento.cep #088 A 095 -  Cep do fornecedor
+            #linha << I18n.transliterate(ressarcimento.endereco)[0,40].gsub('º',' ').gsub('°',' ').upcase.ljust(40,' ') # 048 A 087 Endereco do fornecedor
+            #linha << ressarcimento.cep #088 A 095 -  Cep do fornecedor
+            linha << 'RUA WALTER BEZERRA DE SA 55'.ljust(40,' ') # 048 A 087 Endereco do fornecedor
+            linha << '60135225' #088 A 095 -  Cep do fornecedor      
             linha << ressarcimento.cod_banco.rjust(3,'0') #096 A 098 - Codigo do banco do fornecedor
             linha << ressarcimento.agencia.rjust(5,'0') # 099 A 103 - Codigo da agencia do fornecedor
             linha << ressarcimento.digito_agencia.ljust(1,' ') # 104 A 104 - digito da agencia do fornecedor
