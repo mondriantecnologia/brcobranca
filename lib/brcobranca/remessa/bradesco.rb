@@ -69,8 +69,9 @@ module Brcobranca
         primeira_linha << "".ljust(277," ") # 118 a 394 branco
         primeira_linha << num_sequencia.to_s.rjust(6,"0") # 395 a 400 numero sequencial do registro de um em um 
         primeira_linha << "\n"
-        self.parametros.sequencial_arquivo_remessa += 1
-        self.parametros.save 
+        p = self.parametros
+        p.sequencial_arquivo_remessa += 1
+        p.save 
         return primeira_linha
       end
 
@@ -97,9 +98,10 @@ module Brcobranca
         primeira_linha << ''.ljust(8,' ') #487 A 494 - Reservado ao banco preencher com brancos
         primeira_linha << num_sequencia.to_s.rjust(6,"0") # 495 a 500 numero sequencial do registro de um em um 
         primeira_linha << "\n"
-        self.parametros.sequencial_arquivo_cobranca += 1
-        self.parametros.numero_da_lista_de_debito += 1
-        self.parametros.save 
+        p = self.parametros
+        p.sequencial_arquivo_cobranca += 1
+        p.numero_da_lista_de_debito += 1
+        p.save 
         return primeira_linha
       end
       
@@ -126,9 +128,10 @@ module Brcobranca
         primeira_linha << ''.ljust(8,' ') #487 A 494 - Reservado ao banco preencher com brancos
         primeira_linha << num_sequencia.to_s.rjust(6,"0") # 495 a 500 numero sequencial do registro de um em um 
         primeira_linha << "\n"
-        self.parametros.sequencial_arquivo_cobranca += 1
-        self.parametros.numero_da_lista_de_debito += 1
-        self.parametros.save         
+        p = self.parametros
+        p.sequencial_arquivo_cobranca += 1
+        p.numero_da_lista_de_debito += 1
+        p.save         
         return primeira_linha
       end
       
